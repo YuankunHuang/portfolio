@@ -9,6 +9,9 @@ let failed = false;
 for (const [path, theme] of [
   ["/", "light"],
   ["/", "dark"],
+  ["/work/", "light"],
+  ["/work/", "dark"],
+  ["/writing/", "light"],
   ["/work/trait/", "light"],
   ["/work/rhythm-fruit-shop-cpp/", "dark"],
 ]) {
@@ -18,6 +21,8 @@ for (const [path, theme] of [
   await page.evaluate(() =>
     document.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible")),
   );
+  // Let the reveal opacity transition finish so contrast is measured on final colors.
+  await page.waitForTimeout(700);
   const results = await new AxeBuilder({ page }).analyze();
   console.log(`${path} [${theme}]: ${results.violations.length} violations`);
   for (const v of results.violations) {

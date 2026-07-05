@@ -1,41 +1,47 @@
 ---
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import OtherWork from "./OtherWork.astro";
 
-const work = (await getCollection("work")).sort((a, b) => a.data.order - b.data.order);
+interface Props {
+  num?: string;
+}
+
+const { num = "01" } = Astro.props;
+
+const work = (await getCollection("work", (e) => e.data.featured)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
 ---
 
 <section class="section selected-work" id="work" aria-label="Selected work">
   <div class="container">
-    <p class="section-label selected-work__header">Selected Work</p>
+    <div class="selected-work__head">
+      <p class="section-label"><span class="section-num">{num}</span>Selected Work</p>
+      <a href="/work/" class="arrow-link">All work →</a>
+    </div>
 
-    {
-      work.map((project, i) => (
-        <article
-          class:list={["case-study", "reveal", { "case-study--bordered": i < work.length - 1 }]}
-          aria-label={project.data.title}
-        >
-          <div class="asymmetric-layout">
-            <aside class="case-study__meta">
-              <div class="case-study__meta-item">
-                <span class="meta-label">Period</span>
-                <span class="meta-value">{project.data.period}</span>
-              </div>
-              <div class="case-study__meta-item">
-                <span class="meta-label">Role</span>
-                <span class="meta-value">{project.data.role}</span>
-              </div>
-              <div class="case-study__meta-item">
-                <span class="meta-label">Team</span>
-                <span class="meta-value">{project.data.team}</span>
-              </div>
-              <div class="case-study__meta-item case-study__tags">
-                {project.data.stack.map((s) => (
-                  <span class="stack-tag">{s}</span>
-                ))}
-              </div>
-              <div class="case-study__meta-item case-study__links">
+    <div class="work-index">
+      {
+        work.map((project, i) => (
+          <article class="work-row reveal" aria-label={project.data.title}>
+            <span class="work-row__num" aria-hidden="true">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+
+            <div class="work-row__body">
+              <h2 class="work-row__title">
+                <a href={`/work/${project.id}/`}>{project.data.title}</a>
+              </h2>
+              <p class="work-row__summary">{project.data.summary}</p>
+              {project.data.outcome && (
+                <p class="work-row__outcome">
+                  <span class="work-row__outcome-label" aria-hidden="true">
+                    →
+                  </span>
+                  {project.data.outcome}
+                </p>
+              )}
+              <div class="work-row__links">
                 <a
                   href={`/work/${project.id}/`}
                   class="arrow-link"
@@ -56,71 +62,54 @@ const work = (await getCollection("work")).sort((a, b) => a.data.order - b.data.
                 {project.data.video && (
                   <button
                     type="button"
-                    class="arrow-link arrow-link--muted case-study__demo-btn"
+                    class="arrow-link arrow-link--muted work-row__demo-btn"
                     data-demo-type="video"
                     data-demo-src={project.data.video.src}
                     data-demo-poster={project.data.video.poster?.src}
                     data-demo-title={`${project.data.title} — demo video`}
                   >
-                    ↳ Watch demo
-                  </button>
-                )}
-              </div>
-            </aside>
-
-            <div class="case-study__body">
-              <h2 class="case-study__title">
-                <a href={`/work/${project.id}/`}>{project.data.title}</a>
-              </h2>
-              <hr class="rule case-study__rule" />
-
-              <div class="case-study__prose prose">
-                <div class="case-study__block">
-                  <h3 class="case-study__block-label">Context</h3>
-                  <p>{project.data.context}</p>
-                </div>
-                <div class="case-study__block">
-                  <h3 class="case-study__block-label">Decision</h3>
-                  <p>{project.data.decision}</p>
-                </div>
-                <div class="case-study__block">
-                  <h3 class="case-study__block-label">Outcome</h3>
-                  <p>{project.data.outcome}</p>
-                </div>
-              </div>
-
-              <div class="case-study__image">
-                <a href={`/work/${project.id}/`} tabindex="-1" aria-hidden="true">
-                  <Image
-                    src={project.data.cover.src}
-                    alt={project.data.cover.alt}
-                    widths={[480, 800, 1200, 1600]}
-                    sizes="(max-width: 820px) calc(100vw - 40px), min(66vw, 840px)"
-                    style={`object-position: ${project.data.cover.position}`}
-                    loading="lazy"
-                  />
-                </a>
-                {project.data.video && (
-                  <button
-                    type="button"
-                    class="case-study__overlay-btn"
-                    data-demo-type="video"
-                    data-demo-src={project.data.video.src}
-                    data-demo-poster={project.data.video.poster?.src}
-                    data-demo-title={`${project.data.title} — demo video`}
-                    aria-label={`Watch ${project.data.title} demo`}
-                  >
-                    ▶&nbsp;&nbsp;Watch demo
+                    ▶ Demo
                   </button>
                 )}
               </div>
             </div>
-          </div>
-        </article>
-      ))
-    }
 
-    <OtherWork />
+            <div class="work-row__meta">
+              <div class="work-row__meta-item">
+                <span class="meta-label">Period</span>
+                <span class="meta-value">{project.data.period}</span>
+              </div>
+              <div class="work-row__meta-item">
+                <span class="meta-label">Role</span>
+                <span class="meta-value">{project.data.role}</span>
+              </div>
+              <div class="work-row__meta-item">
+                <span class="meta-label">Stack</span>
+                <span class="work-row__stack">{project.data.stack.join(" · ")}</span>
+              </div>
+            </div>
+
+            {project.data.cover && (
+              <a
+                href={`/work/${project.id}/`}
+                class="work-row__thumb"
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                <Image
+                  src={project.data.cover.src}
+                  alt=""
+                  widths={[240, 480, 720]}
+                  sizes="(max-width: 820px) calc(100vw - 40px), 220px"
+                  style={`object-position: ${project.data.cover.position}`}
+                  loading="lazy"
+                />
+              </a>
+            )}
+          </article>
+        ))
+      }
+    </div>
   </div>
 </section>
 
@@ -129,129 +118,141 @@ const work = (await getCollection("work")).sort((a, b) => a.data.order - b.data.
     border-top: 1px solid var(--rule);
   }
 
-  .selected-work__header {
-    margin-bottom: 48px;
-  }
-
-  .case-study {
-    padding-block: 40px 56px;
-  }
-
-  .case-study--bordered {
-    border-bottom: 1px solid var(--rule);
-  }
-
-  .case-study__meta {
+  .selected-work__head {
     display: flex;
-    flex-direction: column;
-    gap: 14px;
-    align-content: start;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
   }
 
-  .case-study__tags {
-    margin-top: 8px;
+  .work-index {
+    border-top: 1px solid var(--hairline);
   }
 
-  .case-study__links {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    margin-top: 14px;
+  .work-row {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 6fr) minmax(0, 3fr) 220px;
+    gap: 12px 28px;
+    padding-block: 22px;
+    border-bottom: 1px solid var(--hairline);
+    align-items: start;
   }
 
-  .arrow-link--muted {
-    color: var(--muted);
-  }
-
-  .arrow-link--muted:hover {
+  .work-row__num {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-variant-numeric: tabular-nums;
     color: var(--accent-2);
+    padding-top: 6px;
   }
 
-  .case-study__demo-btn {
-    text-align: left;
+  .work-row__title {
+    font-size: var(--text-lg);
   }
 
-  .case-study__title {
-    font-size: var(--text-xl);
-  }
-
-  .case-study__title a {
+  .work-row__title a {
     color: var(--ink);
     text-decoration: none;
   }
 
-  .case-study__title a:hover {
+  .work-row__title a:hover {
     color: var(--accent);
   }
 
-  .case-study__rule {
-    margin: 16px 0 28px;
-  }
-
-  .case-study__block + .case-study__block {
-    margin-top: 24px;
-  }
-
-  .case-study__block-label {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-
-  .case-study__block p {
+  .work-row__summary {
     font-size: var(--text-sm);
     color: var(--ink);
+    margin-top: 6px;
+    max-width: var(--measure);
   }
 
-  .case-study__image {
-    position: relative;
-    margin-top: 36px;
-    max-width: 840px;
-  }
-
-  .case-study__image :global(img) {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    border-radius: 6px;
-    box-shadow: var(--shadow);
-  }
-
-  .case-study__overlay-btn {
-    position: absolute;
-    left: 16px;
-    bottom: 16px;
-    font-family: var(--font-mono);
+  .work-row__outcome {
     font-size: var(--text-xs);
-    color: #fff;
-    background: rgba(12, 11, 9, 0.72);
-    border-radius: 4px;
-    padding: 8px 14px;
-    transition: background-color var(--transition);
+    color: var(--muted);
+    margin-top: 8px;
+    max-width: var(--measure);
+    padding-left: 1.2em;
+    position: relative;
   }
 
-  .case-study__overlay-btn:hover {
-    background: rgba(12, 11, 9, 0.9);
+  .work-row__outcome-label {
+    position: absolute;
+    left: 0;
+    color: var(--accent-2);
+  }
+
+  .work-row__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    margin-top: 12px;
+  }
+
+  .work-row__demo-btn {
+    text-align: left;
+  }
+
+  .work-row__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-left: 1px solid var(--hairline);
+    padding-left: 20px;
+  }
+
+  .work-row__stack {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .work-row__thumb {
+    display: block;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .work-row__thumb :global(img) {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    transition: transform var(--transition);
+  }
+
+  .work-row__thumb:hover :global(img) {
+    transform: scale(1.03);
+  }
+
+  @media (max-width: 1080px) {
+    .work-row {
+      grid-template-columns: 44px minmax(0, 6fr) minmax(0, 3fr);
+    }
+
+    .work-row__thumb {
+      grid-column: 2;
+      max-width: 320px;
+    }
   }
 
   @media (max-width: 820px) {
-    .case-study__meta {
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 16px 32px;
+    .work-row {
+      grid-template-columns: 36px minmax(0, 1fr);
     }
 
-    .case-study__links {
+    .work-row__meta {
+      grid-column: 2;
       flex-direction: row;
       flex-wrap: wrap;
-      gap: 16px;
-      margin-top: 0;
-      width: 100%;
+      gap: 12px 28px;
+      border-left: none;
+      padding-left: 0;
+    }
+
+    .work-row__thumb {
+      grid-column: 2;
     }
   }
 </style>

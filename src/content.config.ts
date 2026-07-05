@@ -1,36 +1,45 @@
 import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
-import { glob, file } from "astro/loaders";
+import { glob } from "astro/loaders";
 
 /**
- * Full case studies. One MDX file per project under src/content/work/.
- * Frontmatter carries everything the home page and case-study page need;
- * the MDX body is an optional long-form deep dive (code blocks, pull
- * quotes, extra figures) rendered after the Context/Decision/Outcome
- * summary on the case-study page.
+ * All projects live in src/content/work/, one MDX file each.
+ *
+ * Two tiers share the collection:
+ *   - Full case studies: `featured: true`, carry context/decision/outcome
+ *     and a cover image, get a /work/<slug>/ page, and appear in the home
+ *     page Selected Work index.
+ *   - Light entries: `featured: false`, only need title/year/summary/stack,
+ *     and appear only on the /work/ index page.
  */
 const work = defineCollection({
   loader: glob({ pattern: "**/*.mdx", base: "./src/content/work" }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      /** Sort order on the home page (ascending). */
-      order: z.number(),
-      period: z.string(),
-      role: z.string(),
-      team: z.string(),
+      /** Featured projects appear on the home page and get a case-study page. */
+      featured: z.boolean().default(false),
+      /** Sort order among featured projects (ascending). */
+      order: z.number().default(99),
+      /** Start year, used for grouping on the /work/ index. */
+      year: z.string(),
+      period: z.string().optional(),
+      role: z.string().optional(),
+      team: z.string().optional(),
       stack: z.array(z.string()),
-      /** One-sentence summary used for meta descriptions. */
+      /** One-sentence summary used in indexes and meta descriptions. */
       summary: z.string(),
-      context: z.string(),
-      decision: z.string(),
-      outcome: z.string(),
-      cover: z.object({
-        src: image(),
-        alt: z.string(),
-        /** CSS object-position for the cover crop. */
-        position: z.string().default("center center"),
-      }),
+      context: z.string().optional(),
+      decision: z.string().optional(),
+      outcome: z.string().optional(),
+      cover: z
+        .object({
+          src: image(),
+          alt: z.string(),
+          /** CSS object-position for the cover crop. */
+          position: z.string().default("center center"),
+        })
+        .optional(),
       links: z
         .array(z.object({ label: z.string(), url: z.url() }))
         .default([]),
@@ -62,23 +71,18 @@ const work = defineCollection({
 });
 
 /**
- * Smaller / older projects rendered as a compact list — no case-study page.
+ * Blog posts. One MDX file per post under src/content/writing/.
+ * Posts with `draft: true` are excluded from builds.
  */
-const otherWork = defineCollection({
-  loader: file("./src/content/other-work.json"),
+const writing = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/writing" }),
   schema: z.object({
-    year: z.string(),
-    project: z.string(),
-    description: z.string(),
-    stack: z.string(),
-    link: z.object({ label: z.string(), url: z.url() }).nullable(),
-    demo: z
-      .discriminatedUnion("type", [
-        z.object({ type: z.literal("video"), src: z.string() }),
-        z.object({ type: z.literal("webgl"), src: z.string(), title: z.string() }),
-      ])
-      .optional(),
+    title: z.string(),
+    date: z.date(),
+    summary: z.string(),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
   }),
 });
 
-export const collections = { work, otherWork };
+export const collections = { work, writing };

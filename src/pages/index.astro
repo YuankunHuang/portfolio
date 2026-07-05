@@ -1,21 +1,23 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
-import Now from "../components/Now.astro";
 import SelectedWork from "../components/SelectedWork.astro";
+import RecentWriting from "../components/RecentWriting.astro";
 import About from "../components/About.astro";
-import Contact from "../components/Contact.astro";
 import DemoDialog from "../components/DemoDialog.astro";
 import { site } from "../data/site";
+
+const hasWriting = (await getCollection("writing", (e) => !e.data.draft)).length > 0;
 
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Yuankun Huang",
   url: site.url,
-  jobTitle: "Senior Software Engineer — Real-Time Systems",
+  jobTitle: "Software Engineer — Game Client & Real-Time Systems",
   description:
-    "Senior game engineer specializing in Unity, native C++ simulation, and live-service client architecture. Shipped Mythic Heroes (10M+ downloads); building deterministic, replayable simulation infrastructure.",
+    "Unity engineer with 5+ years shipping mobile games in production, including Mythic Heroes (10M+ downloads). Currently working on native interop, plugin architecture, and runtime diagnostics at the Unity native boundary.",
   sameAs: ["https://github.com/YuankunHuang", "https://www.linkedin.com/in/yuankun-huang/"],
   address: {
     "@type": "PostalAddress",
@@ -23,11 +25,11 @@ const personJsonLd = {
     addressCountry: "CA",
   },
   knowsAbout: [
-    "C++",
     "C#",
+    "C++",
     "Unity",
+    "Native Interop",
     "Deterministic Simulation",
-    "Distributed Systems",
     "Game Development",
     "Real-Time Systems",
   ],
@@ -38,9 +40,8 @@ const personJsonLd = {
   <script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
 
   <Hero />
-  <Now />
-  <SelectedWork />
-  <About />
-  <Contact />
+  <SelectedWork num="01" />
+  {hasWriting && <RecentWriting num="02" />}
+  <About num={hasWriting ? "03" : "02"} />
   <DemoDialog />
 </Layout>

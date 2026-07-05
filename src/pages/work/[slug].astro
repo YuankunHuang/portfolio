@@ -6,7 +6,7 @@ import Lightbox from "../../components/Lightbox.astro";
 import DemoDialog from "../../components/DemoDialog.astro";
 
 export async function getStaticPaths() {
-  const work = await getCollection("work");
+  const work = await getCollection("work", (e) => e.data.featured);
   return work.map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
@@ -16,6 +16,7 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const hasBody = entry.body ? entry.body.trim().length > 0 : false;
+const cover = entry.data.cover;
 
 // Full-size (still optimized) variants for the lightbox.
 const galleryFull = await Promise.all(
@@ -29,37 +30,54 @@ const galleryFull = await Promise.all(
   <article class="case-page" aria-label={`${entry.data.title} case study`}>
     <div class="container">
       <nav class="case-page__nav" aria-label="Breadcrumb">
-        <a href="/#work" class="arrow-link">← Selected Work</a>
+        <a href="/#work" class="arrow-link">← Selected work</a>
+        <a href="/work/" class="arrow-link arrow-link--muted">All work</a>
       </nav>
     </div>
 
-    <div class="case-page__cover">
-      <Image
-        src={entry.data.cover.src}
-        alt={entry.data.cover.alt}
-        widths={[640, 1000, 1600, 2200]}
-        sizes="100vw"
-        style={`object-position: ${entry.data.cover.position}`}
-        loading="eager"
-        fetchpriority="high"
-      />
-    </div>
+    {
+      cover && (
+        <div class="case-page__cover">
+          <Image
+            src={cover.src}
+            alt={cover.alt}
+            widths={[640, 1000, 1600, 2200]}
+            sizes="100vw"
+            style={`object-position: ${cover.position}`}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      )
+    }
 
     <div class="container">
       <div class="asymmetric-layout case-page__layout">
         <aside class="case-page__meta">
-          <div class="case-page__meta-item">
-            <span class="meta-label">Period</span>
-            <span class="meta-value">{entry.data.period}</span>
-          </div>
-          <div class="case-page__meta-item">
-            <span class="meta-label">Role</span>
-            <span class="meta-value">{entry.data.role}</span>
-          </div>
-          <div class="case-page__meta-item">
-            <span class="meta-label">Team</span>
-            <span class="meta-value">{entry.data.team}</span>
-          </div>
+          {
+            entry.data.period && (
+              <div class="case-page__meta-item">
+                <span class="meta-label">Period</span>
+                <span class="meta-value">{entry.data.period}</span>
+              </div>
+            )
+          }
+          {
+            entry.data.role && (
+              <div class="case-page__meta-item">
+                <span class="meta-label">Role</span>
+                <span class="meta-value">{entry.data.role}</span>
+              </div>
+            )
+          }
+          {
+            entry.data.team && (
+              <div class="case-page__meta-item">
+                <span class="meta-label">Team</span>
+                <span class="meta-value">{entry.data.team}</span>
+              </div>
+            )
+          }
           <div class="case-page__meta-item case-page__tags">
             <span class="meta-label">Stack</span>
             <div>
@@ -109,18 +127,30 @@ const galleryFull = await Promise.all(
           <hr class="rule case-page__rule reveal" style="--reveal-delay: 40ms" />
 
           <div class="prose">
-            <section class="case-page__block reveal" style="--reveal-delay: 80ms">
-              <h2 class="case-page__block-label">Context</h2>
-              <p>{entry.data.context}</p>
-            </section>
-            <section class="case-page__block reveal" style="--reveal-delay: 140ms">
-              <h2 class="case-page__block-label">Decision</h2>
-              <p>{entry.data.decision}</p>
-            </section>
-            <section class="case-page__block reveal" style="--reveal-delay: 200ms">
-              <h2 class="case-page__block-label">Outcome</h2>
-              <p>{entry.data.outcome}</p>
-            </section>
+            {
+              entry.data.context && (
+                <section class="case-page__block reveal" style="--reveal-delay: 80ms">
+                  <h2 class="case-page__block-label">Context</h2>
+                  <p>{entry.data.context}</p>
+                </section>
+              )
+            }
+            {
+              entry.data.decision && (
+                <section class="case-page__block reveal" style="--reveal-delay: 140ms">
+                  <h2 class="case-page__block-label">Decision</h2>
+                  <p>{entry.data.decision}</p>
+                </section>
+              )
+            }
+            {
+              entry.data.outcome && (
+                <section class="case-page__block reveal" style="--reveal-delay: 200ms">
+                  <h2 class="case-page__block-label">Outcome</h2>
+                  <p>{entry.data.outcome}</p>
+                </section>
+              )
+            }
           </div>
 
           {
@@ -177,7 +207,17 @@ const galleryFull = await Promise.all(
 
 <style>
   .case-page__nav {
-    padding-block: 20px;
+    display: flex;
+    gap: 24px;
+    padding-block: 16px;
+  }
+
+  .arrow-link--muted {
+    color: var(--muted);
+  }
+
+  .arrow-link--muted:hover {
+    color: var(--accent-2);
   }
 
   .case-page__cover {
@@ -190,18 +230,18 @@ const galleryFull = await Promise.all(
     width: 100%;
     aspect-ratio: 21 / 9;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 6px;
     box-shadow: var(--shadow);
   }
 
   .case-page__layout {
-    margin-top: clamp(36px, 6vw, 64px);
+    margin-top: clamp(28px, 4.5vw, 48px);
   }
 
   .case-page__meta {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
     align-content: start;
   }
 
@@ -213,8 +253,8 @@ const galleryFull = await Promise.all(
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
-    margin-top: 14px;
+    gap: 8px;
+    margin-top: 12px;
   }
 
   .case-page__demo-btn {
@@ -226,21 +266,21 @@ const galleryFull = await Promise.all(
   }
 
   .case-page__rule {
-    margin: 20px 0 36px;
+    margin: 14px 0 24px;
   }
 
   .case-page__block + .case-page__block {
-    margin-top: 28px;
+    margin-top: 20px;
   }
 
   .case-page__block-label {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: var(--text-2xs);
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--accent);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
   .case-page__block p {
@@ -248,7 +288,7 @@ const galleryFull = await Promise.all(
   }
 
   .case-page__body {
-    margin-top: 40px;
+    margin-top: 32px;
     font-size: var(--text-sm);
   }
 
@@ -294,14 +334,14 @@ const galleryFull = await Promise.all(
   }
 
   .case-page__gallery {
-    margin-top: 56px;
+    margin-top: 40px;
   }
 
   .case-page__gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 24px;
-    margin-top: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 18px;
+    margin-top: 16px;
   }
 
   .case-page__figure {
@@ -312,7 +352,7 @@ const galleryFull = await Promise.all(
     position: relative;
     display: block;
     width: 100%;
-    border-radius: 6px;
+    border-radius: 4px;
     overflow: hidden;
   }
 
@@ -350,7 +390,7 @@ const galleryFull = await Promise.all(
   .case-page__caption {
     font-size: var(--text-xs);
     color: var(--muted);
-    padding-top: 8px;
+    padding-top: 6px;
     line-height: 1.5;
   }
 

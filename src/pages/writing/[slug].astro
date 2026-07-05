@@ -1,0 +1,143 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import { site } from "../../data/site";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("writing", (e) => !e.data.draft);
+  return posts.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-CA", { year: "numeric", month: "2-digit", day: "2-digit" });
+
+const postJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: entry.data.title,
+  description: entry.data.summary,
+  datePublished: entry.data.date.toISOString(),
+  author: {
+    "@type": "Person",
+    name: "Yuankun Huang",
+    url: site.url,
+  },
+  url: new URL(`/writing/${entry.id}/`, site.url).href,
+};
+---
+
+<Layout
+  title={`${entry.data.title} — Yuankun Huang`}
+  description={entry.data.summary}
+  ogType="article"
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(postJsonLd)} slot="head" />
+
+  <article class="post" aria-label={entry.data.title}>
+    <div class="container">
+      <nav class="post__nav" aria-label="Breadcrumb">
+        <a href="/writing/" class="arrow-link">← Writing</a>
+      </nav>
+
+      <header class="post__header">
+        <p class="post__date">
+          {fmt(entry.data.date)}
+          {entry.data.tags.length > 0 && <span> · {entry.data.tags.join(" · ")}</span>}
+        </p>
+        <h1 class="post__title">{entry.data.title}</h1>
+        <p class="post__summary">{entry.data.summary}</p>
+        <hr class="rule post__rule" />
+      </header>
+
+      <div class="post__body prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .post__nav {
+    padding-block: 16px 0;
+  }
+
+  .post__header {
+    margin-top: 28px;
+    max-width: var(--measure);
+  }
+
+  .post__date {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .post__title {
+    font-size: var(--text-2xl);
+  }
+
+  .post__summary {
+    font-size: var(--text-sm);
+    color: var(--muted);
+    margin-top: 10px;
+  }
+
+  .post__rule {
+    margin: 20px 0 0;
+  }
+
+  .post__body {
+    margin-top: 24px;
+    margin-bottom: var(--section-gap);
+    font-size: var(--text-sm);
+  }
+
+  .post__body :global(h2) {
+    font-size: var(--text-lg);
+    margin: 1.6em 0 0.5em;
+  }
+
+  .post__body :global(h3) {
+    font-size: var(--text-md);
+    margin: 1.4em 0 0.4em;
+  }
+
+  .post__body :global(p) {
+    margin-block: 0.9em;
+  }
+
+  .post__body :global(blockquote) {
+    margin: 1.4em 0;
+    padding-left: 20px;
+    border-left: 3px solid var(--accent-2);
+    font-family: var(--font-serif);
+    font-size: var(--text-md);
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  .post__body :global(ul),
+  .post__body :global(ol) {
+    padding-left: 1.4em;
+  }
+
+  .post__body :global(li) {
+    margin-block: 0.35em;
+  }
+
+  .post__body :global(code:not(.astro-code code)) {
+    font-size: 0.85em;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 1px 5px;
+  }
+</style>
