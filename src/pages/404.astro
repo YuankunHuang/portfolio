@@ -1,0 +1,31 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Page not found — Yuankun Huang" description="This page doesn't exist.">
+  <section class="section not-found">
+    <div class="container">
+      <p class="section-label">404</p>
+      <h1 class="not-found__title">Page not found</h1>
+      <p class="not-found__text prose">
+        The page you're looking for doesn't exist or has moved.
+      </p>
+      <a href="/" class="arrow-link">← Back to home</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .not-found {
+    padding-block: clamp(80px, 16vw, 160px);
+  }
+
+  .not-found__title {
+    font-size: var(--text-2xl);
+    margin-top: 16px;
+  }
+
+  .not-found__text {
+    margin-block: 20px 32px;
+  }
+</style>

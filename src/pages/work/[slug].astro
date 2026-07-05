@@ -1,0 +1,376 @@
+---
+import { Image, getImage } from "astro:assets";
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Lightbox from "../../components/Lightbox.astro";
+import DemoDialog from "../../components/DemoDialog.astro";
+
+export async function getStaticPaths() {
+  const work = await getCollection("work");
+  return work.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const hasBody = entry.body ? entry.body.trim().length > 0 : false;
+
+// Full-size (still optimized) variants for the lightbox.
+const galleryFull = await Promise.all(
+  entry.data.gallery.map((item) =>
+    getImage({ src: item.src, width: Math.min(item.src.width, 1920), format: "webp" }),
+  ),
+);
+---
+
+<Layout title={`${entry.data.title} — Yuankun Huang`} description={entry.data.summary} ogType="article">
+  <article class="case-page" aria-label={`${entry.data.title} case study`}>
+    <div class="container">
+      <nav class="case-page__nav" aria-label="Breadcrumb">
+        <a href="/#work" class="arrow-link">← Selected Work</a>
+      </nav>
+    </div>
+
+    <div class="case-page__cover">
+      <Image
+        src={entry.data.cover.src}
+        alt={entry.data.cover.alt}
+        widths={[640, 1000, 1600, 2200]}
+        sizes="100vw"
+        style={`object-position: ${entry.data.cover.position}`}
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+
+    <div class="container">
+      <div class="asymmetric-layout case-page__layout">
+        <aside class="case-page__meta">
+          <div class="case-page__meta-item">
+            <span class="meta-label">Period</span>
+            <span class="meta-value">{entry.data.period}</span>
+          </div>
+          <div class="case-page__meta-item">
+            <span class="meta-label">Role</span>
+            <span class="meta-value">{entry.data.role}</span>
+          </div>
+          <div class="case-page__meta-item">
+            <span class="meta-label">Team</span>
+            <span class="meta-value">{entry.data.team}</span>
+          </div>
+          <div class="case-page__meta-item case-page__tags">
+            <span class="meta-label">Stack</span>
+            <div>
+              {entry.data.stack.map((s) => <span class="stack-tag">{s}</span>)}
+            </div>
+          </div>
+          <div class="case-page__meta-item case-page__links">
+            {
+              entry.data.links.map((link) => (
+                <a href={link.url} target="_blank" rel="noopener noreferrer" class="arrow-link">
+                  ↗ {link.label}
+                </a>
+              ))
+            }
+            {
+              entry.data.video && (
+                <button
+                  type="button"
+                  class="arrow-link case-page__demo-btn"
+                  data-demo-type="video"
+                  data-demo-src={entry.data.video.src}
+                  data-demo-poster={entry.data.video.poster?.src}
+                  data-demo-title={`${entry.data.title} — demo video`}
+                >
+                  ▶ Watch demo
+                </button>
+              )
+            }
+            {
+              entry.data.webgl && (
+                <button
+                  type="button"
+                  class="arrow-link case-page__demo-btn"
+                  data-demo-type="webgl"
+                  data-demo-src={entry.data.webgl.src}
+                  data-demo-title={entry.data.webgl.title}
+                >
+                  ▶ Live demo
+                </button>
+              )
+            }
+          </div>
+        </aside>
+
+        <div class="case-page__content">
+          <h1 class="case-page__title reveal">{entry.data.title}</h1>
+          <hr class="rule case-page__rule reveal" style="--reveal-delay: 40ms" />
+
+          <div class="prose">
+            <section class="case-page__block reveal" style="--reveal-delay: 80ms">
+              <h2 class="case-page__block-label">Context</h2>
+              <p>{entry.data.context}</p>
+            </section>
+            <section class="case-page__block reveal" style="--reveal-delay: 140ms">
+              <h2 class="case-page__block-label">Decision</h2>
+              <p>{entry.data.decision}</p>
+            </section>
+            <section class="case-page__block reveal" style="--reveal-delay: 200ms">
+              <h2 class="case-page__block-label">Outcome</h2>
+              <p>{entry.data.outcome}</p>
+            </section>
+          </div>
+
+          {
+            hasBody && (
+              <div class="case-page__body prose">
+                <Content />
+              </div>
+            )
+          }
+
+          {
+            entry.data.gallery.length > 0 && (
+              <section class="case-page__gallery" aria-label="Gallery">
+                <h2 class="case-page__block-label reveal">Gallery</h2>
+                <div class="case-page__gallery-grid">
+                  {entry.data.gallery.map((item, i) => (
+                    <figure class="case-page__figure reveal" style={`--reveal-delay: ${i * 60}ms`}>
+                      <button
+                        type="button"
+                        class="case-page__thumb"
+                        data-lightbox-src={galleryFull[i]!.src}
+                        data-lightbox-alt={`${item.title} — ${item.caption}`}
+                        data-lightbox-caption={`${item.title} — ${item.caption}`}
+                        aria-label={`View full size: ${item.title}`}
+                      >
+                        <Image
+                          src={item.src}
+                          alt={`${item.title} — ${item.caption}`}
+                          widths={[400, 640, 960]}
+                          sizes="(max-width: 680px) calc(100vw - 40px), 33vw"
+                          loading="lazy"
+                        />
+                        <span class="case-page__thumb-hint" aria-hidden="true">
+                          ⤢ expand
+                        </span>
+                      </button>
+                      <figcaption class="case-page__caption">
+                        <strong>{item.title}</strong> — {item.caption}
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </section>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <Lightbox />
+  <DemoDialog />
+</Layout>
+
+<style>
+  .case-page__nav {
+    padding-block: 20px;
+  }
+
+  .case-page__cover {
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .case-page__cover :global(img) {
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+
+  .case-page__layout {
+    margin-top: clamp(36px, 6vw, 64px);
+  }
+
+  .case-page__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-content: start;
+  }
+
+  .case-page__tags .meta-label {
+    margin-bottom: 6px;
+  }
+
+  .case-page__links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .case-page__demo-btn {
+    text-align: left;
+  }
+
+  .case-page__title {
+    font-size: var(--text-2xl);
+  }
+
+  .case-page__rule {
+    margin: 20px 0 36px;
+  }
+
+  .case-page__block + .case-page__block {
+    margin-top: 28px;
+  }
+
+  .case-page__block-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .case-page__block p {
+    font-size: var(--text-sm);
+  }
+
+  .case-page__body {
+    margin-top: 40px;
+    font-size: var(--text-sm);
+  }
+
+  .case-page__body :global(h2) {
+    font-size: var(--text-lg);
+    margin: 1.6em 0 0.5em;
+  }
+
+  .case-page__body :global(h3) {
+    font-size: var(--text-md);
+    margin: 1.4em 0 0.4em;
+  }
+
+  .case-page__body :global(p) {
+    margin-block: 0.9em;
+  }
+
+  .case-page__body :global(blockquote) {
+    margin: 1.4em 0;
+    padding-left: 20px;
+    border-left: 3px solid var(--accent-2);
+    font-family: var(--font-serif);
+    font-size: var(--text-md);
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  .case-page__body :global(ul),
+  .case-page__body :global(ol) {
+    padding-left: 1.4em;
+  }
+
+  .case-page__body :global(li) {
+    margin-block: 0.35em;
+  }
+
+  .case-page__body :global(code:not(.astro-code code)) {
+    font-size: 0.85em;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 1px 5px;
+  }
+
+  .case-page__gallery {
+    margin-top: 56px;
+  }
+
+  .case-page__gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .case-page__figure {
+    margin: 0;
+  }
+
+  .case-page__thumb {
+    position: relative;
+    display: block;
+    width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .case-page__thumb :global(img) {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform var(--transition);
+  }
+
+  .case-page__thumb:hover :global(img) {
+    transform: scale(1.02);
+  }
+
+  .case-page__thumb-hint {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: #fff;
+    background: rgba(12, 11, 9, 0.65);
+    border-radius: 3px;
+    padding: 3px 8px;
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+
+  .case-page__thumb:hover .case-page__thumb-hint,
+  .case-page__thumb:focus-visible .case-page__thumb-hint {
+    opacity: 1;
+  }
+
+  .case-page__caption {
+    font-size: var(--text-xs);
+    color: var(--muted);
+    padding-top: 8px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 820px) {
+    .case-page__cover :global(img) {
+      aspect-ratio: 16 / 9;
+    }
+
+    .case-page__meta {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 16px 32px;
+    }
+
+    .case-page__links {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 0;
+      width: 100%;
+    }
+  }
+</style>

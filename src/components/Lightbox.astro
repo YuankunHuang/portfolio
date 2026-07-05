@@ -1,0 +1,94 @@
+---
+/**
+ * One shared <dialog> lightbox per page. Buttons with `data-lightbox-src`
+ * (+ `data-lightbox-alt`, optional `data-lightbox-caption`) open it.
+ * Native <dialog> handles focus trapping and Escape-to-close.
+ */
+---
+
+<dialog class="lightbox" id="lightbox" aria-label="Image viewer">
+  <button class="lightbox__close" type="button" data-lightbox-close>✕ close</button>
+  <figure class="lightbox__figure">
+    <img id="lightbox-img" alt="" />
+    <figcaption id="lightbox-caption" class="lightbox__caption"></figcaption>
+  </figure>
+</dialog>
+
+<style>
+  .lightbox {
+    padding: 0;
+    border: none;
+    background: transparent;
+    max-width: calc(100vw - 24px);
+    max-height: calc(100vh - 24px);
+  }
+
+  .lightbox::backdrop {
+    background: rgba(12, 11, 9, 0.88);
+  }
+
+  .lightbox__close {
+    position: fixed;
+    top: 4px;
+    right: 8px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: #e8e4d9;
+    padding: 10px;
+    z-index: 1;
+  }
+
+  .lightbox__close:hover {
+    color: #fff;
+  }
+
+  .lightbox__figure {
+    margin: 0;
+  }
+
+  .lightbox__figure img {
+    max-width: calc(100vw - 48px);
+    max-height: calc(100vh - 96px);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+
+  .lightbox__caption {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: #cfc9bd;
+    text-align: center;
+    padding-top: 10px;
+    min-height: 1.5em;
+  }
+
+  .lightbox__caption:empty {
+    display: none;
+  }
+</style>
+
+<script>
+  const dialog = document.getElementById("lightbox") as HTMLDialogElement | null;
+  const img = document.getElementById("lightbox-img") as HTMLImageElement | null;
+  const caption = document.getElementById("lightbox-caption");
+
+  document.querySelectorAll<HTMLElement>("[data-lightbox-src]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (!dialog || !img) return;
+      img.src = btn.dataset.lightboxSrc ?? "";
+      img.alt = btn.dataset.lightboxAlt ?? "";
+      if (caption) caption.textContent = btn.dataset.lightboxCaption ?? "";
+      dialog.showModal();
+    });
+  });
+
+  dialog?.addEventListener("close", () => {
+    img?.removeAttribute("src");
+  });
+  dialog?.querySelector("[data-lightbox-close]")?.addEventListener("click", () => dialog.close());
+  dialog?.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+</script>

@@ -1,0 +1,217 @@
+---
+import { navigation, site } from "../data/site";
+---
+
+<header class="site-nav">
+  <nav class="container site-nav__inner" aria-label="Main navigation">
+    <a href="/" class="site-nav__brand" aria-label="Home">{navigation.brand}</a>
+    <ul class="site-nav__links">
+      {
+        navigation.links.map((link) => (
+          <li>
+            <a href={link.href} class="site-nav__link">
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a
+          href={site.resumeHref}
+          download={site.resumeDownloadName}
+          class="site-nav__link site-nav__link--resume"
+        >
+          Resume
+        </a>
+      </li>
+      <li>
+        <button
+          id="theme-toggle"
+          class="site-nav__theme"
+          type="button"
+          aria-label="Switch to dark mode"
+        >
+          <svg
+            class="site-nav__theme-icon site-nav__theme-icon--moon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg
+            class="site-nav__theme-icon site-nav__theme-icon--sun"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="5"></circle>
+            <path
+              d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+            ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid transparent;
+    transition:
+      border-color var(--transition),
+      background-color var(--transition);
+  }
+
+  .site-nav.is-scrolled {
+    border-bottom-color: var(--rule);
+  }
+
+  .site-nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .site-nav__brand {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .site-nav__brand:hover {
+    color: var(--accent-2);
+  }
+
+  .site-nav__links {
+    display: flex;
+    align-items: center;
+    gap: clamp(16px, 3vw, 32px);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-nav__link {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .site-nav__link:hover {
+    color: var(--accent-2);
+  }
+
+  .site-nav__link--resume {
+    color: var(--accent);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 5px 12px;
+  }
+
+  .site-nav__link--resume:hover {
+    border-color: var(--accent-2);
+  }
+
+  .site-nav__theme {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: var(--muted);
+    transition: color var(--transition);
+  }
+
+  .site-nav__theme:hover {
+    color: var(--accent-2);
+  }
+
+  @media (max-width: 480px) {
+    .site-nav__links {
+      gap: 12px;
+    }
+
+    .site-nav__link {
+      font-size: 0.75rem;
+    }
+
+    .site-nav__link--resume {
+      padding: 4px 8px;
+    }
+  }
+
+  /* The resume download stays reachable from About/Contact on tiny screens */
+  @media (max-width: 400px) {
+    .site-nav__link--resume {
+      display: none;
+    }
+  }
+
+  /* Show the icon of the mode you'd switch to */
+  .site-nav__theme-icon--sun {
+    display: none;
+  }
+
+  :global([data-theme="dark"]) .site-nav__theme-icon--sun {
+    display: block;
+  }
+
+  :global([data-theme="dark"]) .site-nav__theme-icon--moon {
+    display: none;
+  }
+</style>
+
+<script>
+  const nav = document.querySelector<HTMLElement>(".site-nav");
+  if (nav) {
+    const onScroll = () => nav.classList.toggle("is-scrolled", window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+
+  const toggle = document.getElementById("theme-toggle");
+  const updateLabel = () => {
+    const dark = document.documentElement.dataset.theme === "dark";
+    toggle?.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+  };
+  updateLabel();
+  toggle?.addEventListener("click", () => {
+    const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    try {
+      localStorage.setItem("theme", next);
+    } catch {
+      /* private mode — theme just won't persist */
+    }
+    // Keep browser chrome color in sync with the manual override.
+    const bg = next === "dark" ? "#191713" : "#f0ede4";
+    document
+      .querySelectorAll('meta[name="theme-color"]')
+      .forEach((m) => m.setAttribute("content", bg));
+    updateLabel();
+  });
+</script>

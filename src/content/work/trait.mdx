@@ -1,0 +1,41 @@
+---
+title: "TrAIT"
+order: 4
+period: "2024 — 2025"
+role: "Lead Engineer"
+team: "UBC research collaboration"
+stack: ["Unity", "Leap Motion SDK", "C#", "Session Telemetry"]
+summary: "A stroke-rehabilitation system built with UBC clinical researchers — published results: ~13% improvement in paretic arm function, ~31× more therapeutic reaches per session."
+context: "TrAIT is a stroke rehabilitation system I built at UBC in collaboration with clinical researchers. Traditional upper-limb therapy is low-repetition and hard to sustain — conventional sessions produce roughly 32 therapeutic reaches; the clinical bar for motor relearning demands an order of magnitude more."
+decision: "I built TrAIT in Unity with Leap Motion for precise 3D hand tracking and integrated the Challenge Point Framework for adaptive difficulty. The key decision was designing session telemetry that clinicians could actually trust in a peer-reviewed study — every reach timestamped, every workspace boundary calibrated to the individual patient, no data dropped on disconnection."
+outcome: "The peer-reviewed study reported approximately 13% improvement in paretic arm function and roughly 31× more therapeutic reaches per session versus conventional care. Published in Neurorehabilitation and Neural Repair."
+cover:
+  src: "../../assets/work/trait/cover.png"
+  alt: "TrAIT rehabilitation game — patient-facing gameplay view with hand-tracked reaching targets"
+links:
+  - label: "UBC Research"
+    url: "https://www.med.ubc.ca/news/gamified-stroke-recovery-improves-arm-function"
+video:
+  src: "/projects/trait/demo-video.mp4"
+  poster: "../../assets/work/trait/video-poster.png"
+  caption: "TrAIT therapy session — hand-tracked catch-and-throw gameplay"
+gallery:
+  - src: "../../assets/work/trait/01-main-menu.png"
+    title: "Main Menu"
+    caption: "Session entry point designed for clinical settings — large targets, minimal reading load"
+  - src: "../../assets/work/trait/02-calibration.png"
+    title: "Workspace Calibration"
+    caption: "Each patient's reachable workspace is calibrated individually before every session"
+  - src: "../../assets/work/trait/03-gameplay-catch.png"
+    title: "Catch Task"
+    caption: "Hand-tracked catching drives repeated reaching motions inside the calibrated workspace"
+  - src: "../../assets/work/trait/04-gameplay-throw.png"
+    title: "Throw Task"
+    caption: "Throwing variation keeps repetitions engaging while targeting the same motor patterns"
+  - src: "../../assets/work/trait/05-settings-dashboard.png"
+    title: "Clinician Settings"
+    caption: "Difficulty and task parameters adjustable per patient via the Challenge Point Framework"
+  - src: "../../assets/work/trait/06-analytics-dashboard.png"
+    title: "Session Analytics"
+    caption: "Timestamped reach telemetry surfaced for clinicians — the data backbone of the published study"
+---
