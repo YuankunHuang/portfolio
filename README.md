@@ -31,13 +31,13 @@ to R2 or another CDN first.
 src/
   content.config.ts       Content collection schemas (zod-validated)
   content/
-    work/*.mdx            Case studies (one file per project)
-    other-work.yaml       Smaller/older projects (compact list)
-  data/site.ts            Hero / Now / About / Contact / navigation content
+    work/*.mdx            All projects (featured case studies + light index entries)
+    writing/*.mdx         Blog posts (draft: true excludes from builds)
+  data/site.ts            Hero / Status / About / Contact / navigation content
   assets/                 Images processed by Astro's image pipeline
   components/             Astro components (no UI framework)
   layouts/                Base HTML layout (SEO, fonts, theme)
-  pages/                  Routes: / and /work/[slug]
+  pages/                  Routes: /, /work/, /work/[slug], /writing/, /writing/[slug], /rss.xml
   styles/                 Design tokens + global styles
 public/
   projects/               Demo videos (served as-is)
@@ -46,14 +46,25 @@ public/
 
 ## Adding a new project
 
-1. **Full case study**: add `src/content/work/<slug>.mdx`. Frontmatter is schema-validated
-   (see `src/content.config.ts`): title, order, period, role, team, stack, cover image,
-   optional demo video / WebGL embed, optional gallery. The MDX body is the long-form
-   case study and supports code blocks, pull quotes, and images.
-2. **Smaller project**: add an entry to `src/content/other-work.json`.
+All projects live in `src/content/work/`, one MDX file each (schema in
+`src/content.config.ts`):
+
+1. **Featured case study**: set `featured: true` and provide `order`, `period`, `role`,
+   `team`, `context`/`decision`/`outcome`, and a cover image. It appears in the home page
+   Selected Work index and gets a `/work/<slug>/` page. The MDX body is the optional
+   long-form deep dive (code blocks, pull quotes, images).
+2. **Light entry**: only `title`, `year`, `summary`, `stack` (plus optional links/demo).
+   It appears only on the `/work/` index, grouped by year.
 
 Put cover/gallery images under `src/assets/work/<slug>/` so they go through the optimized
 image pipeline. Put videos and WebGL builds under `public/projects/<slug>/`.
+
+## Publishing a blog post
+
+Copy `src/content/writing/hello-template.mdx` to `src/content/writing/<slug>.mdx`, fill in
+the frontmatter, and set `draft: false`. The post automatically appears on `/writing/`, in
+the home page Recent Writing section, in `/rss.xml`, and in the sitemap. Flip `showWriting`
+in `src/data/site.ts` to add Writing to the navbar (kept off until a few posts exist).
 
 ## Verification scripts (dev-only)
 
@@ -79,7 +90,7 @@ committed or pushed.
 
 ## Content conventions
 
-- The "Now" section (`src/data/site.ts`) is updated quarterly.
+- The "Status" panel (`now` in `src/data/site.ts`) is updated quarterly.
 - The resume PDF lives at `public/YuankunHuang-Resume.pdf`.
 - `public/_headers` carries Brotli content-encoding rules for Unity WebGL builds
   (used by Cloudflare/Netlify-style hosts; ignored elsewhere).

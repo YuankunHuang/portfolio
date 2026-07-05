@@ -37,6 +37,7 @@ echo.
 echo ========================================
 echo.
 
+start "" "http://localhost:4321"
 call npm run dev
 
 endlocal

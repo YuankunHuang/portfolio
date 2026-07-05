@@ -1,14 +1,14 @@
 /**
  * Site-wide content. Everything here is plain data — edit this file to
- * update the Hero, Now, About, and Contact sections without touching
+ * update the Hero, Status, About, and Contact sections without touching
  * any component.
  */
 
 export const site = {
   name: "Yuankun Huang",
-  title: "Yuankun Huang | Senior Game Engineer",
+  title: "Yuankun Huang — Game Engineer",
   description:
-    "Yuankun Huang — Senior game engineer in Vancouver. Shipped Mythic Heroes to 10M+ players; now building deterministic, replayable simulation infrastructure in native C++. Canadian citizen, TN visa eligible.",
+    "Unity engineer with 5+ years shipping mobile games in production — including Mythic Heroes (10M+ downloads) from early development through global launch and live ops. Currently working at the native boundary: C++ interop, plugin architecture, runtime diagnostics — toward deterministic real-time simulation.",
   url: "https://yuankunhuang.com",
   ogImage: "/social-image.png",
   resumeHref: "/YuankunHuang-Resume.pdf",
@@ -18,13 +18,12 @@ export const site = {
 export const hero = {
   name: "Yuankun Huang",
   headline:
-    "I ship live games to millions — and build the deterministic real-time systems underneath them.",
-  subline:
-    "Vancouver, BC · Senior Software Engineer — Real-Time Systems · Open to US senior roles (TN eligible)",
+    "Five years shipping Unity games in production. Now engineering the layer where C# meets native code.",
+  subline: "Vancouver, BC · Game engineer — Unity & native interop · Canadian citizen, TN eligible",
   intro:
-    "I come from shipping live mobile games at 10M+ download scale. I'm now engineering the layer beneath them: deterministic, replayable simulation cores — native C++, fixed timesteps, and the boundary where managed code meets native.",
-  stats: ["10M+ downloads shipped", "5+ years in production", "C++ · C# · Python"],
-  cta: { label: "See selected work ↓", href: "#work" },
+    "I build game clients for a living: Mythic Heroes (10M+ downloads) from early development through global launch and live ops, a shipped survival title, and client frameworks for an unannounced strategy game. My current work runs along the Unity native boundary — C++ interop, plugin architecture, and cross-boundary diagnostics — a deliberate bridge from client engineering toward deterministic, replayable simulation systems. Not a claim of expertise yet; a direction with evidence attached.",
+  stats: ["10M+ downloads shipped", "5+ years in production", "C# · C++ · Python"],
+  cta: { label: "Selected work ↓", href: "#work" },
   socialLinks: [
     { label: "GitHub", url: "https://github.com/YuankunHuang" },
     { label: "LinkedIn", url: "https://www.linkedin.com/in/yuankun-huang/" },
@@ -37,17 +36,21 @@ export const now = {
     {
       label: "At work",
       value:
-        "after a Mythic Heroes maintenance pass, building live-event and lightweight minigame frameworks for an unannounced strategy title",
+        "building live-event and minigame client frameworks for an unannounced strategy title at IGG Canada",
+    },
+    {
+      label: "Building",
+      value:
+        "Unity Native Boundary Lab — design doc complete, implementation in progress: C++ interop, native plugin architecture, cross-boundary diagnostics",
     },
     {
       label: "Just shipped",
       value:
-        "rhythm-fruit-shop-cpp — a native C++20 rhythm core where timing, determinism, and zero-allocation are CI-enforced contracts, not claims",
+        "rhythm-fruit-shop-cpp — a native C++20 rhythm core where timing, determinism, and zero-allocation are CI-enforced contracts",
     },
     {
       label: "Learning",
-      value:
-        "UE5 MassEntity production patterns and flow-field pathfinding; starting OMSCS (Computing Systems) at Georgia Tech, Fall 2026",
+      value: "starting OMSCS (Computing Systems) at Georgia Tech, Fall 2026",
     },
     {
       label: "Listening to",
@@ -59,12 +62,12 @@ export const now = {
 export const about = {
   heading: "Yuankun Huang",
   paragraphs: [
-    "I first understood what software could do by watching games teach things textbooks could not — my mother and I would sit together solving puzzles, and something that was supposed to be entertainment turned into a shared language. That mix of connection and learning has oriented every role I have taken since. I joined IGG Canada in 2020 as a Unity engineer, shipped Mythic Heroes through global launch and live operations at 10M+ download scale, and later rejoined the team for a maintenance pass before moving onto client frameworks for live events and lightweight minigames on an unannounced strategy title.",
-    "The past year has been a deliberate move down the stack: from building games to building the real-time systems games run on — native C++, fixed-timestep simulation kernels, replay and determinism infrastructure, and the performance contracts that make games possible rather than the games themselves. The projects below are that transition made concrete. Rhythm Fruit Shop's CI-enforced determinism and Kodama's data-oriented server loop are framed as games, but the engineering underneath them is simulation infrastructure.",
-    "My working style is front-loaded. I write a design doc before I write code, name the tradeoff I am making before I commit to a direction, and reach for a profiler before I guess at a bottleneck. I prefer systems that are boring and correct to systems that are clever and fragile, and I have the production war stories to explain why. I keep specs measurable, postmortems honest, and documentation accurate — not because I was told to, but because I have debugged enough other people's undocumented systems at 2am to know what the alternative costs.",
-    "Outside work I listen to Hans Zimmer scores loud enough that my neighbors have opinions about it. I keep a Diet Coke within arm's reach during long repro sessions. I teach my mother math problems over video call, which turns out to be a surprisingly good way to sharpen your own explanations. I ski the slopes of BC when there is snow, play badminton when there is not, and I am genuinely excited about what distributed simulation is going to make possible in the next decade.",
+    "Games were how my mother and I first shared a language — puzzles solved together at one keyboard — and that mix of connection and learning still orients the work. I joined IGG Canada in 2020 as a Unity engineer and shipped Mythic Heroes from early development through global launch and years of live operations at 10M+ download scale, contributed to Dawn of Survival, and now build live-event and minigame client frameworks for an unannounced strategy title.",
+    "The past year has been a deliberate move toward the native boundary: the layer where managed Unity code meets C++ runtimes, platform APIs, and SDKs. Rhythm Fruit Shop's CI-enforced determinism, Kodama's data-oriented server loop, and the in-progress Unity Native Boundary Lab are that transition made concrete — verifiable artifacts, not a rebranding. The long-term target is deterministic real-time simulation: systems that are reproducible, replayable, and headless-capable, with simulation logic cleanly separated from presentation.",
+    "My working style is front-loaded: a design doc before code, the tradeoff named before the commitment, a profiler before a guess. I prefer systems that are boring and correct to systems that are clever and fragile. Outside work I listen to Hans Zimmer scores loud enough that my neighbors have opinions, teach my mother math over video call, ski BC's slopes when there is snow, and play badminton when there is not.",
   ],
-  skills: "C++20 · C# · Unity · Python · .NET 8 · CMake · UE5 · SignalR · Profiling",
+  skills: "C# · Unity · C++20 · .NET 8 · Python · CMake · SignalR · Profiling · CI",
+  education: "OMSCS (Computing Systems), Georgia Tech — starting Fall 2026",
   archive: {
     label: "View early creative portfolio",
     url: "https://yuankunhuang.myportfolio.com/",
@@ -73,7 +76,7 @@ export const about = {
 
 export const contact = {
   message:
-    "Open to selective conversations about senior game engineering, simulation infrastructure, and systems tooling.",
+    "Open to conversations about Unity client engineering, native interop, and real-time systems work.",
   eligibility: "Canadian citizen — TN visa eligible for US roles.",
   methods: [
     { label: "Email", value: "me@yuankunhuang.com", href: "mailto:me@yuankunhuang.com" },
@@ -86,10 +89,14 @@ export const contact = {
   ],
 };
 
+/** Show the Writing entry in the navbar once there are enough posts. */
+export const showWriting = false;
+
 export const navigation = {
   brand: "YH",
   links: [
-    { label: "Work", href: "/#work" },
+    { label: "Work", href: "/work/" },
+    ...(showWriting ? [{ label: "Writing", href: "/writing/" }] : []),
     { label: "About", href: "/#about" },
     { label: "Contact", href: "/#contact" },
   ],

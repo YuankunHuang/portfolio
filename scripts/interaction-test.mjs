@@ -28,7 +28,8 @@ check(
     (await page.locator("#demo-dialog video").count()) === 0,
 );
 
-// WebGL dialog opens an iframe
+// WebGL dialog opens an iframe (lives on the /work/ index)
+await page.goto(BASE + "/work/", { waitUntil: "networkidle" });
 await page.click('button[data-demo-type="webgl"]');
 await page.waitForTimeout(300);
 check("webgl dialog opens iframe", await page.isVisible("#demo-dialog iframe"));

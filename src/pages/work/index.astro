@@ -1,0 +1,221 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import DemoDialog from "../../components/DemoDialog.astro";
+
+const all = await getCollection("work");
+
+const byYear = new Map<string, typeof all>();
+for (const entry of all) {
+  const list = byYear.get(entry.data.year) ?? [];
+  list.push(entry);
+  byYear.set(entry.data.year, list);
+}
+
+const years = [...byYear.keys()].sort((a, b) => b.localeCompare(a));
+for (const year of years) {
+  byYear
+    .get(year)!
+    .sort((a, b) =>
+      a.data.featured === b.data.featured
+        ? a.data.order - b.data.order
+        : a.data.featured
+          ? -1
+          : 1,
+    );
+}
+---
+
+<Layout
+  title="Work — Yuankun Huang"
+  description="All projects: shipped games, native C++ systems, distributed simulation prototypes, and tooling."
+>
+  <section class="section work-archive" aria-label="All work">
+    <div class="container">
+      <nav class="work-archive__nav" aria-label="Breadcrumb">
+        <a href="/" class="arrow-link">← Home</a>
+      </nav>
+
+      <h1 class="section-label work-archive__head">Work Index</h1>
+
+      {
+        years.map((year) => (
+          <div class="work-archive__group">
+            <h2 class="work-archive__year">{year}</h2>
+            <ul class="work-archive__list">
+              {byYear.get(year)!.map((entry) => (
+                <li class="work-archive__row reveal">
+                  <div class="work-archive__main">
+                    <span class="work-archive__title">
+                      {entry.data.featured ? (
+                        <a href={`/work/${entry.id}/`}>{entry.data.title}</a>
+                      ) : entry.data.links[0] ? (
+                        <a
+                          href={entry.data.links[0].url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {entry.data.title}
+                        </a>
+                      ) : (
+                        entry.data.title
+                      )}
+                    </span>
+                    <span class="work-archive__summary">{entry.data.summary}</span>
+                    <span class="work-archive__stack">{entry.data.stack.join(" · ")}</span>
+                  </div>
+                  <span class="work-archive__actions">
+                    {entry.data.featured && (
+                      <a
+                        href={`/work/${entry.id}/`}
+                        class="arrow-link"
+                        aria-label={`Full case study for ${entry.data.title}`}
+                      >
+                        ↗ Case study
+                      </a>
+                    )}
+                    {entry.data.links.map((link) => (
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="arrow-link arrow-link--muted"
+                      >
+                        ↗ {link.label}
+                      </a>
+                    ))}
+                    {entry.data.video && (
+                      <button
+                        type="button"
+                        class="arrow-link arrow-link--muted work-archive__demo-btn"
+                        data-demo-type="video"
+                        data-demo-src={entry.data.video.src}
+                        data-demo-title={`${entry.data.title} — demo video`}
+                      >
+                        ▶ Demo
+                      </button>
+                    )}
+                    {entry.data.webgl && (
+                      <button
+                        type="button"
+                        class="arrow-link arrow-link--muted work-archive__demo-btn"
+                        data-demo-type="webgl"
+                        data-demo-src={entry.data.webgl.src}
+                        data-demo-title={entry.data.webgl.title}
+                      >
+                        ▶ Live demo
+                      </button>
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <DemoDialog />
+</Layout>
+
+<style>
+  .work-archive__nav {
+    padding-block: 16px 0;
+  }
+
+  .work-archive__head {
+    margin-top: 24px;
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+
+  .work-archive__group {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 8px 32px;
+    border-top: 1px solid var(--rule);
+    padding-block: 18px;
+  }
+
+  .work-archive__year {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent-2);
+    line-height: 1.6;
+  }
+
+  .work-archive__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .work-archive__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 24px;
+    align-items: baseline;
+    padding-block: 10px;
+  }
+
+  .work-archive__row + .work-archive__row {
+    border-top: 1px solid var(--hairline);
+  }
+
+  .work-archive__main {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    max-width: var(--measure);
+  }
+
+  .work-archive__title {
+    font-family: var(--font-serif);
+    font-size: var(--text-md);
+    font-weight: 550;
+  }
+
+  .work-archive__title a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .work-archive__title a:hover {
+    color: var(--accent);
+  }
+
+  .work-archive__summary {
+    font-size: var(--text-xs);
+    color: var(--ink);
+  }
+
+  .work-archive__stack {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    color: var(--muted);
+  }
+
+  .work-archive__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    white-space: nowrap;
+  }
+
+  .work-archive__demo-btn {
+    text-align: left;
+  }
+
+  @media (max-width: 680px) {
+    .work-archive__group {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .work-archive__row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

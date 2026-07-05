@@ -1,5 +1,5 @@
 ---
-import { hero } from "../data/site";
+import { contact } from "../data/site";
 
 const year = new Date().getFullYear();
 ---
@@ -9,10 +9,14 @@ const year = new Date().getFullYear();
     <p class="site-footer__copy">© {year} Yuankun Huang</p>
     <ul class="site-footer__links">
       {
-        hero.socialLinks.map((link) => (
+        contact.methods.map((method) => (
           <li>
-            <a href={link.url} target="_blank" rel="noopener noreferrer">
-              {link.label}
+            <a
+              href={method.href}
+              target={method.href.startsWith("mailto") ? undefined : "_blank"}
+              rel={method.href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+            >
+              {method.label === "Email" ? method.value : method.label}
             </a>
           </li>
         ))
@@ -24,7 +28,7 @@ const year = new Date().getFullYear();
 <style>
   .site-footer {
     border-top: 1px solid var(--rule);
-    margin-top: var(--section-gap);
+    margin-top: calc(var(--section-gap) / 2);
   }
 
   .site-footer__inner {
@@ -32,7 +36,7 @@ const year = new Date().getFullYear();
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    padding-block: 28px;
+    padding-block: 20px;
     flex-wrap: wrap;
   }
 

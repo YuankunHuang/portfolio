@@ -28,6 +28,9 @@ await shot("home-light-full", "/", { full: true });
 await shot("home-dark", "/", { theme: "dark" });
 await shot("case-rhythm-light", "/work/rhythm-fruit-shop-cpp/", { full: true });
 await shot("case-trait-dark", "/work/trait/", { theme: "dark", full: true });
+await shot("work-index-light", "/work/", { full: true });
+await shot("work-index-dark", "/work/", { theme: "dark", full: true });
+await shot("writing-index-light", "/writing/", { full: true });
 await shot("home-mobile", "/", { width: 375, height: 720, full: true });
 await shot("home-tiny", "/", { width: 320, height: 640 });
 
