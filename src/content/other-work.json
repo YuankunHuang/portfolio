@@ -1,0 +1,44 @@
+[
+  {
+    "id": "synapse",
+    "year": "2025",
+    "project": "Synapse",
+    "description": "Cross-language agent streaming — 2,000+ Python-driven agents into a Unity client via SignalR + MessagePack",
+    "stack": ".NET 8, Python, Unity",
+    "link": { "label": "GitHub", "url": "https://github.com/YuankunHuang/Synapse" }
+  },
+  {
+    "id": "game-data-config-tool",
+    "year": "2024",
+    "project": "GameDataConfigTool",
+    "description": ".NET CLI generating type-safe C# from Excel configs via Roslyn — reference design for a production config pipeline",
+    "stack": ".NET 8, Roslyn",
+    "link": { "label": "GitHub", "url": "https://github.com/YuankunHuang/GameDataConfigTool" }
+  },
+  {
+    "id": "dawn-of-survival",
+    "year": "2023",
+    "project": "Dawn of Survival",
+    "description": "Shipped mobile title at IGG Canada — prototype, framework setup, stabilization",
+    "stack": "Unity, HybridCLR, Protobuf",
+    "link": { "label": "TapTap", "url": "https://www.taptap.io/app/33793587" }
+  },
+  {
+    "id": "synthmind",
+    "year": "2022",
+    "project": "SynthMind",
+    "description": "Architecture prototype: modular managers, Addressables, 4-language localization, ChatGPT API",
+    "stack": "Unity, Addressables, OpenAI",
+    "link": { "label": "GitHub", "url": "https://github.com/YuankunHuang/SynthMind" },
+    "demo": { "type": "webgl", "src": "/webgl-demos/SynthMind/index.html", "title": "SynthMind — Unity WebGL demo" }
+  },
+  {
+    "id": "virtual-host-xr",
+    "year": "2019",
+    "project": "Virtual Host XR",
+    "description": "Final-year project: web virtual host for guided walkthroughs via Amazon Sumerian",
+    "stack": "Sumerian, WebGL",
+    "link": null,
+    "demo": { "type": "video", "src": "/projects/virtual-host-xr/demo.mp4" }
+  }
+]

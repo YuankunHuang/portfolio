@@ -1,0 +1,108 @@
+---
+/**
+ * One shared <dialog> per page for demo playback. Any button carrying
+ * `data-demo-type` + `data-demo-src` (+ optional `data-demo-poster`,
+ * `data-demo-title`) opens it. Native <dialog> provides focus trapping,
+ * Escape-to-close, and correct inert behavior for free; media is created
+ * on open and torn down on close so videos stop and WebGL unloads.
+ */
+---
+
+<dialog class="demo-dialog" id="demo-dialog" aria-label="Project demo">
+  <div class="demo-dialog__frame">
+    <button class="demo-dialog__close" type="button" data-demo-close>✕ close</button>
+    <div class="demo-dialog__media" id="demo-dialog-media"></div>
+  </div>
+</dialog>
+
+<style>
+  .demo-dialog {
+    padding: 0;
+    border: none;
+    background: transparent;
+    max-width: min(1080px, calc(100vw - 32px));
+    width: 100%;
+  }
+
+  .demo-dialog::backdrop {
+    background: rgba(12, 11, 9, 0.82);
+    backdrop-filter: blur(2px);
+  }
+
+  .demo-dialog__frame {
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: var(--shadow);
+  }
+
+  .demo-dialog__close {
+    display: block;
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    padding: 4px 8px 10px;
+  }
+
+  .demo-dialog__close:hover {
+    color: var(--accent-2);
+  }
+
+  .demo-dialog__media :global(video) {
+    width: 100%;
+    max-height: min(72vh, 640px);
+    border-radius: 4px;
+    background: #000;
+  }
+
+  .demo-dialog__media :global(iframe) {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 72vh;
+    border: none;
+    border-radius: 4px;
+    background: #000;
+  }
+</style>
+
+<script>
+  const dialog = document.getElementById("demo-dialog") as HTMLDialogElement | null;
+  const media = document.getElementById("demo-dialog-media");
+
+  function openDemo(btn: HTMLElement): void {
+    if (!dialog || !media) return;
+    const { demoType, demoSrc, demoPoster, demoTitle } = btn.dataset;
+    if (!demoSrc) return;
+
+    if (demoType === "webgl") {
+      const iframe = document.createElement("iframe");
+      iframe.src = demoSrc;
+      iframe.title = demoTitle ?? "Interactive demo";
+      iframe.allowFullscreen = true;
+      media.replaceChildren(iframe);
+    } else {
+      const video = document.createElement("video");
+      video.src = demoSrc;
+      if (demoPoster) video.poster = demoPoster;
+      video.controls = true;
+      video.autoplay = true;
+      video.playsInline = true;
+      if (demoTitle) video.setAttribute("aria-label", demoTitle);
+      media.replaceChildren(video);
+    }
+
+    dialog.showModal();
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-demo-src]").forEach((btn) => {
+    btn.addEventListener("click", () => openDemo(btn));
+  });
+
+  dialog?.addEventListener("close", () => media?.replaceChildren());
+  dialog?.querySelector("[data-demo-close]")?.addEventListener("click", () => dialog.close());
+  // Click on the backdrop (outside the frame) closes the dialog.
+  dialog?.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+</script>

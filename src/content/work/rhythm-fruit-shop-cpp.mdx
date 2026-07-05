@@ -1,0 +1,23 @@
+---
+title: "Rhythm Fruit Shop — Native C++ Core"
+order: 1
+period: "2026"
+role: "Systems Engineer"
+team: "Solo"
+stack: ["C++20", "SFML", "miniaudio", "CMake", "GitHub Actions"]
+summary: "A native C++20 rhythm-game core with CI-enforced determinism, a PCM-cursor-derived clock, and a zero-allocation gameplay hot path."
+context: "A rhythm game is a real-time system with an unforgiving spec: judgment windows are tens of milliseconds wide, so every layer between the audio hardware and the player's input must be accounted for. I built this native C++20 core to prove I can engineer timing, determinism, and memory discipline from first principles — without an engine doing the hard parts for me."
+decision: "Song time derives from the audio backend's PCM cursor through an EMA-smoothed, re-anchoring clock — never from frame deltas. Input events carry host-monotonic timestamps reverse-mapped into song time, treating input-to-judgment as a clock-domain-crossing problem. The session core is fully headless, which makes determinism testable: CI replays a recorded run and asserts agreement with an independent Q16 fixed-point scoring oracle. Memory discipline is enforced, not promised — a custom operator-new AllocationGuard fails the build on any steady-state hot-path allocation, and CMake dependency guards make the layering provable (the core links no windowing or audio libraries)."
+outcome: "Deterministic record & replay validated in CI against an independent fixed-point oracle; a zero-allocation gameplay hot path and architectural layering verified by the headless CI workflow — engineering contracts the build cannot silently break."
+cover:
+  src: "../../assets/work/rhythm-fruit-shop-cpp/cover.jpg"
+  alt: "Rhythm Fruit Shop gameplay — notes descending toward the judgment line in a fruit-shop themed rhythm game"
+  position: "center center"
+links:
+  - label: "GitHub"
+    url: "https://github.com/YuankunHuang/rhythm-fruit-shop-cpp"
+video:
+  src: "/projects/rhythm-fruit-shop-cpp/rhythm-fruit-shop-cpp-demo-60s.mp4"
+  poster: "../../assets/work/rhythm-fruit-shop-cpp/cover.jpg"
+  caption: "60-second gameplay capture of the native C++ core"
+---

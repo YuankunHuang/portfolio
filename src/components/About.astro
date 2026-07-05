@@ -1,0 +1,75 @@
+---
+import { about, site } from "../data/site";
+---
+
+<section class="section about-section" id="about" aria-label="About">
+  <div class="container">
+    <div class="asymmetric-layout">
+      <p class="section-label">About</p>
+
+      <div class="about-section__content">
+        <h2 class="about-section__heading reveal">{about.heading}</h2>
+        <hr class="rule about-section__rule reveal" style="--reveal-delay: 40ms" />
+
+        <div class="prose">
+          {
+            about.paragraphs.map((para, i) => (
+              <p class="about-section__para reveal" style={`--reveal-delay: ${80 + i * 60}ms`}>
+                {para}
+              </p>
+            ))
+          }
+        </div>
+
+        <p class="about-section__skills reveal" style="--reveal-delay: 320ms">{about.skills}</p>
+
+        <div class="about-section__links reveal" style="--reveal-delay: 380ms">
+          <a href={about.archive.url} target="_blank" rel="noopener noreferrer">
+            {about.archive.label} ↗
+          </a>
+          <a href={site.resumeHref} download={site.resumeDownloadName}>
+            Download resume (PDF) ↓
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-section {
+    border-top: 1px solid var(--rule);
+  }
+
+  .about-section__heading {
+    font-size: var(--text-xl);
+  }
+
+  .about-section__rule {
+    margin: 16px 0 32px;
+  }
+
+  .about-section__para {
+    font-size: var(--text-sm);
+  }
+
+  .about-section__skills {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    margin-top: 36px;
+  }
+
+  .about-section__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    margin-top: 20px;
+  }
+
+  .about-section__links a {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-decoration: none;
+  }
+</style>

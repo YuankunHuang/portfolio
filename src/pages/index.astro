@@ -1,0 +1,46 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import Now from "../components/Now.astro";
+import SelectedWork from "../components/SelectedWork.astro";
+import About from "../components/About.astro";
+import Contact from "../components/Contact.astro";
+import DemoDialog from "../components/DemoDialog.astro";
+import { site } from "../data/site";
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Yuankun Huang",
+  url: site.url,
+  jobTitle: "Senior Software Engineer — Real-Time Systems",
+  description:
+    "Senior game engineer specializing in Unity, native C++ simulation, and live-service client architecture. Shipped Mythic Heroes (10M+ downloads); building deterministic, replayable simulation infrastructure.",
+  sameAs: ["https://github.com/YuankunHuang", "https://www.linkedin.com/in/yuankun-huang/"],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Vancouver",
+    addressCountry: "CA",
+  },
+  knowsAbout: [
+    "C++",
+    "C#",
+    "Unity",
+    "Deterministic Simulation",
+    "Distributed Systems",
+    "Game Development",
+    "Real-Time Systems",
+  ],
+};
+---
+
+<Layout>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+
+  <Hero />
+  <Now />
+  <SelectedWork />
+  <About />
+  <Contact />
+  <DemoDialog />
+</Layout>

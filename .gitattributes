@@ -1,0 +1,12 @@
+# Never rewrite line endings — these are generated builds and binary media,
+# not files where CRLF/LF diffs matter or are ever hand-edited.
+public/webgl-demos/** -text
+*.mp4 -text
+*.gif -text
+*.wasm -text
+*.data -text
+*.pdf -text
+*.png -text
+*.jpg -text
+*.jpeg -text
+*.ico -text

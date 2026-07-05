@@ -1,0 +1,64 @@
+/* ========================================
+   Design tokens — Editorial Engineering
+   Light: warm paper / navy / terracotta.
+   Dark: the same editorial voice reinterpreted —
+   warm charcoal paper, lifted navy and terracotta.
+   ======================================== */
+
+:root {
+  /* Color — light (warm paper) */
+  --bg: #f0ede4;
+  --surface: #e8e4d9;
+  --ink: #18181b;
+  --muted: #55524b;
+  --rule: #b8b3a8;
+  --accent: #1e3a5f;
+  --accent-2: #a34618;
+  --focus-ring: #1e3a5f;
+  --shadow: 0 2px 24px rgba(24, 24, 27, 0.08);
+
+  color-scheme: light;
+
+  /* Typography */
+  --font-serif: "Fraunces Variable", Fraunces, Georgia, "Times New Roman", serif;
+  --font-sans: "Inter Variable", Inter, -apple-system, BlinkMacSystemFont,
+    "Helvetica Neue", sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace,
+    SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Type scale: 14 / 16 / 18 / 24 / 32 / 48 / 72 */
+  --text-xs: 0.875rem;
+  --text-sm: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.5rem;
+  --text-xl: 2rem;
+  --text-2xl: clamp(2.25rem, 1.5rem + 2.5vw, 3rem);
+  --text-3xl: clamp(2.5rem, 1.25rem + 4.5vw, 4.5rem);
+
+  /* Reading */
+  --leading-body: 1.65;
+  --measure: 65ch;
+
+  /* Layout */
+  --max-width: 1280px;
+  --gutter: clamp(20px, 4vw, 32px);
+  --section-gap: clamp(72px, 10vw, 128px);
+
+  /* Motion */
+  --transition: 200ms ease;
+}
+
+:root[data-theme="dark"] {
+  /* Color — dark (warm charcoal paper) */
+  --bg: #191713;
+  --surface: #221f1a;
+  --ink: #eae5da;
+  --muted: #a59e90;
+  --rule: #47423a;
+  --accent: #93b4d6;
+  --accent-2: #d98d5f;
+  --focus-ring: #93b4d6;
+  --shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
+
+  color-scheme: dark;
+}

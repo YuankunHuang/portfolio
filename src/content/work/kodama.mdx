@@ -1,0 +1,23 @@
+---
+title: "Kodama"
+order: 3
+period: "2026"
+role: "Systems Engineer"
+team: "Solo prototype"
+stack: [".NET 8", "SignalR", "MessagePack", "Unity 6", "C#"]
+summary: "A distributed simulation prototype: 10K+ agents at sub-millisecond server ticks on a data-oriented, zero-allocation core loop."
+context: "Kodama is an end-to-end distributed simulation prototype — not a shipping product, but a deliberate sandbox for stress-testing patterns at scale. The problem I wanted to solve: crowded interactive worlds strain the server loop, the wire format, and the client frame budget all at once. I needed a stack where I could measure each constraint separately."
+decision: "I chose SignalR with binary snapshots over a custom WebSocket gateway. The tradeoff was higher initial payload size in exchange for dramatically simpler operational maintenance — one less bespoke component in the critical path. The server's hot path runs on data-oriented storage: a sparse-set, structure-of-arrays agent store (ECS-style parallel arrays with per-state dense sets) and a position-hashed spatial index for O(1) cell lookups — plus struct DTOs, custom enumerators, and buffer pooling; no LINQ in simulation code. On the client, GPU instancing handles crowd rendering without per-entity draw calls. Nearest-resource search is still a linear scan — profiled as a non-bottleneck at 10K agents, and I keep it visible as acknowledged debt rather than pretending it is solved."
+outcome: "10K+ agents with sub-millisecond server ticks, no per-tick GC allocations in the core loop, and ~70% smaller payloads versus comparable JSON snapshots."
+cover:
+  src: "../../assets/work/kodama/cover.jpg"
+  alt: "Kodama terrarium simulation — a dense crowd of agents moving through a stylized 3D environment"
+  position: "center center"
+links:
+  - label: "GitHub"
+    url: "https://github.com/YuankunHuang/Kodama"
+video:
+  src: "/projects/kodama/demo-video.mp4"
+  poster: "../../assets/work/kodama/cover.jpg"
+  caption: "Kodama running 10K+ agents with GPU-instanced crowd rendering"
+---

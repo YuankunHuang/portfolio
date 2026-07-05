@@ -1,0 +1,58 @@
+---
+import { hero } from "../data/site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <p class="site-footer__copy">© {year} Yuankun Huang</p>
+    <ul class="site-footer__links">
+      {
+        hero.socialLinks.map((link) => (
+          <li>
+            <a href={link.url} target="_blank" rel="noopener noreferrer">
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--rule);
+    margin-top: var(--section-gap);
+  }
+
+  .site-footer__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 28px;
+    flex-wrap: wrap;
+  }
+
+  .site-footer__copy {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+  }
+
+  .site-footer__links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-footer__links a {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-decoration: none;
+  }
+</style>
