@@ -31,7 +31,7 @@ export const hero = {
 };
 
 export const now = {
-  updated: "Q2 2026",
+  updated: "Q3 2026",
   items: [
     {
       label: "At work",
