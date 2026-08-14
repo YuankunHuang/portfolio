@@ -6,9 +6,9 @@
 
 export const site = {
   name: "Yuankun Huang",
-  title: "Yuankun Huang — Game Engineer",
+  title: "Yuankun Huang — Game Systems & Simulation",
   description:
-    "Unity engineer with 5+ years shipping mobile games in production, including Mythic Heroes (10M+ downloads). Personal work is on determinism, replay, and verification. Direction: Physical AI simulation infrastructure — making simulation trustworthy.",
+    "Unity engineer with 5+ years shipping game systems in production, including Mythic Heroes (10M+ downloads). Currently working on the Unity native boundary and on determinism, replay, and verification. Direction: Physical AI simulation infrastructure — making simulation trustworthy.",
   url: "https://yuankunhuang.com",
   ogImage: "/social-image.png",
   resumeHref: "/YuankunHuang-Resume.pdf",
@@ -22,7 +22,7 @@ export const hero = {
   subline:
     "Vancouver, BC · Unity / C# in production · direction: simulation verification · Canadian citizen, TN eligible",
   intro:
-    "I build game clients for a living: Mythic Heroes (10M+ downloads) from early development through global launch and live ops, a shipped survival title, and the live-event client framework on an unannounced strategy title. On my own time I build systems a CI gate can hold to account — deterministic record and replay, multi-agent simulation, zero-allocation hot paths. The Unity native boundary — C++ interop, plugin architecture, diagnostics — is a bridge I am building, not my day job. The direction is Physical AI simulation infrastructure: making simulation trustworthy, meaning reproducible, verifiable, and auditable. Not a claim of expertise yet; a direction with evidence attached.",
+    "I build game systems for a living: Mythic Heroes (10M+ downloads) from early development through global launch and live ops, a shipped survival title, and the live-event client framework on an unannounced strategy title. I am currently working on the Unity native boundary — C++ interop, plugin architecture, diagnostics — and on systems a CI gate can hold to account: deterministic record and replay, multi-agent simulation, zero-allocation hot paths. That native-boundary work is after hours, a bridge I am building, not my day job. The direction is Physical AI simulation infrastructure: making simulation trustworthy, meaning reproducible, verifiable, and auditable. Not a claim of expertise yet; a direction with evidence attached.",
   stats: ["10M+ downloads shipped", "5+ years in production", "C# · C++ · Python"],
   cta: { label: "Selected work ↓", href: "#work" },
   socialLinks: [
@@ -47,7 +47,7 @@ export const now = {
     {
       label: "Also",
       value:
-        "closing out Unity Native Boundary Lab (C++ interop, plugin architecture, cross-boundary diagnostics) — a bridge, not the day job",
+        "currently working on Unity Native Boundary Lab — C++ interop, plugin architecture, cross-boundary diagnostics; a bridge, not the day job",
     },
     {
       label: "Learning",
@@ -64,7 +64,7 @@ export const about = {
   heading: "Yuankun Huang",
   paragraphs: [
     "Games were how my mother and I first shared a language — puzzles solved together at one keyboard — and that mix of connection and learning still orients the work. I joined IGG Canada in 2020 as a Unity engineer and shipped Mythic Heroes from early development through global launch and years of live operations at 10M+ download scale, contributed to Dawn of Survival, and now own the live-event client framework on an unannounced strategy title.",
-    "After hours the work has a specific destination: Physical AI simulation infrastructure, entered through reproducibility and verification — not physics-fidelity research. Rhythm Fruit Shop's CI-enforced determinism, Kodama's data-oriented server loop, and the Unity Native Boundary Lab (a bridge I am closing out) are that transition as artifacts, not a rebranding. I want simulation that is reproducible, verifiable, and auditable. The domain vocabulary I am still learning; the engineering habit I already have.",
+    "After hours the work has a specific destination: Physical AI simulation infrastructure, entered through reproducibility and verification — not physics-fidelity research. Rhythm Fruit Shop's CI-enforced determinism, Kodama's data-oriented server loop, and the Unity Native Boundary Lab (which I am currently working on, as a bridge) are that transition as artifacts, not a rebranding. I want simulation that is reproducible, verifiable, and auditable. The domain vocabulary I am still learning; the engineering habit I already have.",
     "My working style is front-loaded: a design doc before code, the tradeoff named before the commitment, a profiler before a guess. I prefer systems that are boring and correct to systems that are clever and fragile. Outside work I listen to Hans Zimmer scores loud enough that my neighbors have opinions, teach my mother math over video call, ski BC's slopes when there is snow, and play badminton when there is not.",
   ],
   skills: "C# · Unity · C++20 · .NET 8 · Python · CMake · SignalR · Profiling · CI",
