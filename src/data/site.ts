@@ -8,7 +8,7 @@ export const site = {
   name: "Yuankun Huang",
   title: "Yuankun Huang — Game Engineer",
   description:
-    "Unity engineer with 5+ years shipping mobile games in production — including Mythic Heroes (10M+ downloads) from early development through global launch and live ops. Currently working at the native boundary: C++ interop, plugin architecture, runtime diagnostics — toward deterministic real-time simulation.",
+    "Unity engineer with 5+ years shipping mobile games in production, including Mythic Heroes (10M+ downloads). Personal work is on determinism, replay, and verification. Direction: Physical AI simulation infrastructure — making simulation trustworthy.",
   url: "https://yuankunhuang.com",
   ogImage: "/social-image.png",
   resumeHref: "/YuankunHuang-Resume.pdf",
@@ -18,10 +18,11 @@ export const site = {
 export const hero = {
   name: "Yuankun Huang",
   headline:
-    "Five years shipping Unity games in production. Now engineering the layer where C# meets native code.",
-  subline: "Vancouver, BC · Game engineer — Unity & native interop · Canadian citizen, TN eligible",
+    "Five years shipping Unity games in production. Building evidence that simulation can be reproduced and verified.",
+  subline:
+    "Vancouver, BC · Unity / C# in production · direction: simulation verification · Canadian citizen, TN eligible",
   intro:
-    "I build game clients for a living: Mythic Heroes (10M+ downloads) from early development through global launch and live ops, a shipped survival title, and client frameworks for an unannounced strategy game. My current work runs along the Unity native boundary — C++ interop, plugin architecture, and cross-boundary diagnostics — a deliberate bridge from client engineering toward deterministic, replayable simulation systems. Not a claim of expertise yet; a direction with evidence attached.",
+    "I build game clients for a living: Mythic Heroes (10M+ downloads) from early development through global launch and live ops, a shipped survival title, and the live-event client framework on an unannounced strategy title. On my own time I build systems a CI gate can hold to account — deterministic record and replay, multi-agent simulation, zero-allocation hot paths. The Unity native boundary — C++ interop, plugin architecture, diagnostics — is a bridge I am building, not my day job. The direction is Physical AI simulation infrastructure: making simulation trustworthy, meaning reproducible, verifiable, and auditable. Not a claim of expertise yet; a direction with evidence attached.",
   stats: ["10M+ downloads shipped", "5+ years in production", "C# · C++ · Python"],
   cta: { label: "Selected work ↓", href: "#work" },
   socialLinks: [
@@ -36,17 +37,17 @@ export const now = {
     {
       label: "At work",
       value:
-        "building live-event and minigame client frameworks for an unannounced strategy title at IGG Canada",
+        "owning the live-event client framework on an unannounced strategy title at IGG Canada — the module other client engineers build on",
     },
     {
       label: "Building",
       value:
-        "Unity Native Boundary Lab — design doc complete, implementation in progress: C++ interop, native plugin architecture, cross-boundary diagnostics",
+        "rhythm-fruit-shop-cpp — a native C++20 core with deterministic record and replay, an independent CI oracle, and a zero-allocation hot path",
     },
     {
-      label: "Just shipped",
+      label: "Also",
       value:
-        "rhythm-fruit-shop-cpp — a native C++20 rhythm core where timing, determinism, and zero-allocation are CI-enforced contracts",
+        "closing out Unity Native Boundary Lab (C++ interop, plugin architecture, cross-boundary diagnostics) — a bridge, not the day job",
     },
     {
       label: "Learning",
@@ -62,8 +63,8 @@ export const now = {
 export const about = {
   heading: "Yuankun Huang",
   paragraphs: [
-    "Games were how my mother and I first shared a language — puzzles solved together at one keyboard — and that mix of connection and learning still orients the work. I joined IGG Canada in 2020 as a Unity engineer and shipped Mythic Heroes from early development through global launch and years of live operations at 10M+ download scale, contributed to Dawn of Survival, and now build live-event and minigame client frameworks for an unannounced strategy title.",
-    "The past year has been a deliberate move toward the native boundary: the layer where managed Unity code meets C++ runtimes, platform APIs, and SDKs. Rhythm Fruit Shop's CI-enforced determinism, Kodama's data-oriented server loop, and the in-progress Unity Native Boundary Lab are that transition made concrete — verifiable artifacts, not a rebranding. The long-term target is deterministic real-time simulation: systems that are reproducible, replayable, and headless-capable, with simulation logic cleanly separated from presentation.",
+    "Games were how my mother and I first shared a language — puzzles solved together at one keyboard — and that mix of connection and learning still orients the work. I joined IGG Canada in 2020 as a Unity engineer and shipped Mythic Heroes from early development through global launch and years of live operations at 10M+ download scale, contributed to Dawn of Survival, and now own the live-event client framework on an unannounced strategy title.",
+    "After hours the work has a specific destination: Physical AI simulation infrastructure, entered through reproducibility and verification — not physics-fidelity research. Rhythm Fruit Shop's CI-enforced determinism, Kodama's data-oriented server loop, and the Unity Native Boundary Lab (a bridge I am closing out) are that transition as artifacts, not a rebranding. I want simulation that is reproducible, verifiable, and auditable. The domain vocabulary I am still learning; the engineering habit I already have.",
     "My working style is front-loaded: a design doc before code, the tradeoff named before the commitment, a profiler before a guess. I prefer systems that are boring and correct to systems that are clever and fragile. Outside work I listen to Hans Zimmer scores loud enough that my neighbors have opinions, teach my mother math over video call, ski BC's slopes when there is snow, and play badminton when there is not.",
   ],
   skills: "C# · Unity · C++20 · .NET 8 · Python · CMake · SignalR · Profiling · CI",
@@ -76,7 +77,7 @@ export const about = {
 
 export const contact = {
   message:
-    "Open to conversations about Unity client engineering, native interop, and real-time systems work.",
+    "Open to conversations about real-time systems and making simulation trustworthy — reproducible, verifiable, auditable.",
   eligibility: "Canadian citizen — TN visa eligible for US roles.",
   methods: [
     { label: "Email", value: "me@yuankunhuang.com", href: "mailto:me@yuankunhuang.com" },
