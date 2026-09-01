@@ -8,7 +8,7 @@ export const site = {
   name: "Yuankun Huang",
   title: "Yuankun Huang — Game Systems & Simulation",
   description:
-    "Unity engineer with 5+ years shipping game systems in production, including Mythic Heroes (10M+ downloads). Currently working on the Unity native boundary and on determinism, replay, and verification. Direction: Physical AI simulation infrastructure — making simulation trustworthy.",
+    "Unity engineer with 5+ years shipping game systems in production, including Mythic Heroes (10M+ downloads). After hours: determinism, record and replay, and verification in C++20. Direction: Physical AI simulation infrastructure — making simulation trustworthy.",
   url: "https://yuankunhuang.com",
   ogImage: "/social-image.png",
   resumeHref: "/YuankunHuang-Resume.pdf",
@@ -22,7 +22,7 @@ export const hero = {
   subline:
     "Vancouver, BC · Unity / C# in production · direction: simulation verification · Canadian citizen, TN eligible",
   intro:
-    "I build game systems for a living: Mythic Heroes (10M+ downloads) from early development through global launch and live ops, a shipped survival title, and the live-event client framework on an unannounced strategy title. I am currently working on the Unity native boundary — C++ interop, plugin architecture, diagnostics — and on systems a CI gate can hold to account: deterministic record and replay, multi-agent simulation, zero-allocation hot paths. That native-boundary work is after hours, a bridge I am building, not my day job. The direction is Physical AI simulation infrastructure: making simulation trustworthy, meaning reproducible, verifiable, and auditable. Not a claim of expertise yet; a direction with evidence attached.",
+    "I build game systems for a living: Mythic Heroes (10M+ downloads) from early development through global launch and live ops, a shipped survival title, and the live-event client framework on an unannounced strategy title. After hours I work further down the stack — where managed code meets native, and where a CI gate can hold a system to account: deterministic record and replay, multi-agent simulation, zero-allocation hot paths. Right now that work is Constantum, a C++20 harness for proving a simulation run reproduces, and for localizing the first divergence when it does not. It is after hours, a bridge I am building, not my day job. The direction is Physical AI simulation infrastructure: making simulation trustworthy, meaning reproducible, verifiable, and auditable. Not a claim of expertise yet; a direction with evidence attached.",
   stats: ["10M+ downloads shipped", "5+ years in production", "C# · C++ · Python"],
   cta: { label: "Selected work ↓", href: "#work" },
   socialLinks: [
@@ -37,21 +37,22 @@ export const now = {
     {
       label: "At work",
       value:
-        "owning the live-event client framework on an unannounced strategy title at IGG Canada — the module other client engineers build on",
+        "an unannounced strategy title at IGG Canada — architecting the live-event client framework other client engineers build on, and primary client owner of live events, Showcase, and minigames",
     },
     {
       label: "Building",
       value:
-        "rhythm-fruit-shop-cpp — a native C++20 core with deterministic record and replay, an independent CI oracle, and a zero-allocation hot path",
+        "Constantum — a C++20 deterministic simulation evaluation harness: record a run in one process, replay it in another, localize the first divergence. In progress, not yet public",
     },
     {
-      label: "Also",
+      label: "Archived",
       value:
-        "currently working on Unity Native Boundary Lab — C++ interop, plugin architecture, cross-boundary diagnostics; a bridge, not the day job",
+        "rhythm-fruit-shop-cpp — a native C++20 practice game whose build enforces deterministic record and replay against an independent fixed-point oracle, plus a zero-allocation hot path. The groundwork Constantum succeeds from",
     },
     {
       label: "Learning",
-      value: "starting OMSCS (Computing Systems) at Georgia Tech, Fall 2026",
+      value:
+        "OMSCS (Computing Systems) at Georgia Tech — first semester underway, taking Computer Animation",
     },
     {
       label: "Listening to",
@@ -70,7 +71,7 @@ export const about = {
     "My working style is front-loaded: a design doc before code, the tradeoff named before the commitment, a profiler before a guess. I prefer systems that are boring and correct to systems that are clever and fragile. Outside work I listen to Hans Zimmer scores loud enough that my neighbors have opinions, teach my mother math over video call, ski BC's slopes when there is snow, and play badminton when there is not.",
   ],
   skills: "C# · Unity · C++20 · .NET 8 · Python · CMake · SignalR · Profiling · CI",
-  education: "OMSCS (Computing Systems), Georgia Tech — starting Fall 2026",
+  education: "OMSCS (Computing Systems), Georgia Tech — in progress since Fall 2026",
   archive: {
     label: "View early creative portfolio",
     url: "https://yuankunhuang.myportfolio.com/",
