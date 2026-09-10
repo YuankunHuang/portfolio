@@ -4,13 +4,13 @@ order: 4
 featured: true
 year: "2024"
 period: "2024 — 2025"
-role: "Engineer"
-team: "UBC research collaboration"
-stack: ["Unity", "Leap Motion SDK", "C#", "Session Telemetry"]
-summary: "A stroke-rehabilitation system built with UBC clinical researchers — published results: ~13% improvement in paretic arm function, ~31× more therapeutic reaches per session."
-context: "TrAIT is a stroke rehabilitation system I built at UBC in collaboration with clinical researchers. Traditional upper-limb therapy is low-repetition and hard to sustain — conventional sessions produce roughly 32 therapeutic reaches; the clinical bar for motor relearning demands an order of magnitude more."
-decision: "I built TrAIT in Unity with Leap Motion for precise 3D hand tracking and integrated the Challenge Point Framework for adaptive difficulty. The key decision was designing session telemetry that clinicians could actually trust in a peer-reviewed study — every reach timestamped, every workspace boundary calibrated to the individual patient, no data dropped on disconnection."
-outcome: "The peer-reviewed study reported approximately 13% improvement in paretic arm function and roughly 31× more therapeutic reaches per session versus conventional care. Published in Neurorehabilitation and Neural Repair."
+role: "Software Engineer (Contract)"
+team: "UBC Faculty of Medicine (Sole engineer, with PO & UX designer)"
+stack: ["Unity", "Ultraleap SDK", "C#", "Research Telemetry"]
+summary: "Sole engineer on the Unity/Ultraleap rebuild of TrAIT — a gamified stroke rehabilitation system succeeding the Kinect version clinically validated in Neurorehabilitation and Neural Repair."
+context: "TrAIT is a gamified upper-limb stroke rehabilitation system developed with UBC clinical researchers. The task was originally clinically validated using a Kinect sensor in a published trial (Neurorehabilitation and Neural Repair, reporting ~13% improvement in paretic arm function). I was brought on as sole engineer to rebuild the system in Unity with Ultraleap hand tracking for the next generation of clinical research."
+decision: "I rebuilt the architecture in Unity from scratch around a clean GameManager and scene controller structure, integrating Ultraleap hand tracking with keyboard fallback, multi-stage workspace calibration with error protection, and streak-based adaptive difficulty. I also built the automated research telemetry pipeline: per-tick CSV session logs emailed directly to the lab, and a ScriptableObject config pipeline with generated C# accessors."
+outcome: "Delivered the complete Unity/Ultraleap rehabilitation software suite and telemetry pipeline for ongoing clinical trials, succeeding the Kinect version validated in Neurorehabilitation and Neural Repair (13% arm-function gain)."
 cover:
   src: "../../assets/work/trait/cover.png"
   alt: "TrAIT rehabilitation game — patient-facing gameplay view with hand-tracked reaching targets"
@@ -39,5 +39,5 @@ gallery:
     caption: "Difficulty and task parameters adjustable per patient via the Challenge Point Framework"
   - src: "../../assets/work/trait/06-analytics-dashboard.png"
     title: "Session Analytics"
-    caption: "Timestamped reach telemetry surfaced for clinicians — the data backbone of the published study"
+    caption: "Timestamped reach telemetry surfaced for clinicians — per-tick research logs exported to the lab"
 ---

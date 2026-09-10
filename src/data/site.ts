@@ -37,7 +37,7 @@ export const now = {
     {
       label: "At work",
       value:
-        "an unannounced strategy title at IGG Canada — architecting the live-event client framework other client engineers build on, and primary client owner of live events, Showcase, and minigames",
+        "an unannounced strategy title at IGG Canada — owning the live-event client framework (content factory, hub window, resolvers) that six engineers ship 30+ event types on, and owning the Showcase client",
     },
     {
       label: "Building",
@@ -47,7 +47,7 @@ export const now = {
     {
       label: "Archived",
       value:
-        "rhythm-fruit-shop-cpp — a native C++20 practice game whose build enforces deterministic record and replay against an independent fixed-point oracle, plus a zero-allocation hot path. The groundwork Constantum succeeds from",
+        "rhythm-fruit-shop-cpp — a native C++20 practice game whose build enforces deterministic record and replay against a reference scoring implementation, plus an asserted zero-allocation hot path. The groundwork Constantum succeeds from",
     },
     {
       label: "Learning",
