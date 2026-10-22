@@ -9,9 +9,9 @@ near-zero client JavaScript, fully static output.
 [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which builds with Astro and
 publishes through GitHub's official Pages Actions (no `gh-pages` branch, no manual artifact
 pushes). The output is plain static files, so moving to Cloudflare Pages/Workers or Vercel later
-is a config change, not a rewrite — with one caveat: some current media files (Unity WebGL
-build, a couple of demo videos) exceed Cloudflare's 25 MiB per-file limit and would need to move
-to R2 or another CDN first.
+is a config change, not a rewrite. Demo videos are H.264 with fast-start and each stays under
+Cloudflare's 25 MiB per-file limit; re-encode new captures the same way before adding them, e.g.
+`ffmpeg -i in.mp4 -vf scale=1280:-2 -c:v libx264 -preset slow -crf 26 -c:a aac -b:a 96k -movflags +faststart out.mp4`.
 
 ## Commands
 

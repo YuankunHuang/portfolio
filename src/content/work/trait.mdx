@@ -1,33 +1,33 @@
 ---
 title: "TrAIT"
-order: 4
+order: 3
 featured: true
 year: "2024"
 period: "2024 — 2025"
 role: "Software Engineer (Contract)"
-team: "UBC Faculty of Medicine (Sole engineer, with PO & UX designer)"
-stack: ["Unity", "Ultraleap SDK", "C#", "Research Telemetry"]
-summary: "Sole engineer on the Unity/Ultraleap rebuild of TrAIT — a gamified stroke rehabilitation system succeeding the Kinect version clinically validated in Neurorehabilitation and Neural Repair."
-context: "TrAIT is a gamified upper-limb stroke rehabilitation system developed with UBC clinical researchers. The task was originally clinically validated using a Kinect sensor in a published trial (Neurorehabilitation and Neural Repair, reporting ~13% improvement in paretic arm function). I was brought on as sole engineer to rebuild the system in Unity with Ultraleap hand tracking for the next generation of clinical research."
-decision: "I rebuilt the architecture in Unity from scratch around a clean GameManager and scene controller structure, integrating Ultraleap hand tracking with keyboard fallback, multi-stage workspace calibration with error protection, and streak-based adaptive difficulty. I also built the automated research telemetry pipeline: per-tick CSV session logs emailed directly to the lab, and a ScriptableObject config pipeline with generated C# accessors."
-outcome: "Delivered the complete Unity/Ultraleap rehabilitation software suite and telemetry pipeline for ongoing clinical trials, succeeding the Kinect version validated in Neurorehabilitation and Neural Repair (13% arm-function gain)."
+team: "Sole engineer, with a product owner and a UX designer"
+stack: ["Unity", "C#", "Ultraleap", "Session telemetry"]
+summary: "Sole engineer on the Unity and Ultraleap rebuild of TrAIT, a gamified stroke-rehabilitation task whose earlier Kinect version was validated in a peer-reviewed trial."
+context: "TrAIT turns upper-limb stroke rehabilitation into a game, because conventional therapy sessions produce few therapeutic reaches and motor relearning needs many more. The original version ran on a Microsoft Kinect and was evaluated in a published trial (Neurorehabilitation and Neural Repair, 2024). I was the sole engineer on its rebuild in Unity with Ultraleap hand tracking, the software the research team updated for its follow-up work."
+decision: "I structured the app as a small service architecture (a game manager with core services and about twenty scene controllers) so calibration, gameplay, telemetry and export could change independently. Ultraleap tracking drives a motion tracker with a keyboard fallback for testing; a multi-stage calibration fits each patient's reachable workspace, with protection against bad captures and a redo path. Progression runs over twelve streak-based levels. Every session writes per-tick research telemetry and exports it to the lab by email, and editor tooling turns configuration schemas into generated accessors so the team could adjust content without code."
+outcome: "A working rebuild delivered end to end as the only engineer, from calibration to research data export. The trial results belong to the earlier Kinect version, not to this build."
 cover:
   src: "../../assets/work/trait/cover.png"
   alt: "TrAIT rehabilitation game — patient-facing gameplay view with hand-tracked reaching targets"
 links:
-  - label: "UBC Research"
+  - label: "UBC news on the original trial"
     url: "https://www.med.ubc.ca/news/gamified-stroke-recovery-improves-arm-function"
 video:
   src: "/projects/trait/demo-video.mp4"
   poster: "../../assets/work/trait/video-poster.png"
-  caption: "TrAIT therapy session — hand-tracked catch-and-throw gameplay"
+  caption: "TrAIT session — hand-tracked catch-and-throw gameplay in the Unity rebuild"
 gallery:
   - src: "../../assets/work/trait/01-main-menu.png"
     title: "Main Menu"
     caption: "Session entry point designed for clinical settings — large targets, minimal reading load"
   - src: "../../assets/work/trait/02-calibration.png"
     title: "Workspace Calibration"
-    caption: "Each patient's reachable workspace is calibrated individually before every session"
+    caption: "Each patient's reachable workspace is calibrated before the session"
   - src: "../../assets/work/trait/03-gameplay-catch.png"
     title: "Catch Task"
     caption: "Hand-tracked catching drives repeated reaching motions inside the calibrated workspace"
@@ -35,9 +35,9 @@ gallery:
     title: "Throw Task"
     caption: "Throwing variation keeps repetitions engaging while targeting the same motor patterns"
   - src: "../../assets/work/trait/05-settings-dashboard.png"
-    title: "Clinician Settings"
-    caption: "Difficulty and task parameters adjustable per patient via the Challenge Point Framework"
+    title: "Settings"
+    caption: "Difficulty and task parameters adjustable per patient"
   - src: "../../assets/work/trait/06-analytics-dashboard.png"
-    title: "Session Analytics"
-    caption: "Timestamped reach telemetry surfaced for clinicians — per-tick research logs exported to the lab"
+    title: "Session Data"
+    caption: "Timestamped reach telemetry, exported to the research team after each session"
 ---

@@ -1,16 +1,16 @@
 ---
 title: "Kodama"
-order: 3
+order: 4
 featured: true
 year: "2026"
 period: "2026"
-role: "Systems Engineer"
+role: "Solo developer"
 team: "Solo prototype"
 stack: [".NET 8", "SignalR", "MessagePack", "Unity 6", "C#"]
-summary: "A distributed simulation prototype: 10K+ agents at 10 Hz server ticks on data-oriented SoA component storage with a zero-allocation behaviour pass."
-context: "Kodama is an end-to-end distributed simulation prototype — not a shipping product, but a deliberate sandbox for stress-testing patterns at scale. The problem I wanted to solve: crowded interactive worlds strain the server loop, the wire format, and the client frame budget all at once. I needed a stack where I could measure each constraint separately."
-decision: "I chose SignalR with binary snapshots over a custom WebSocket gateway. The tradeoff was higher initial payload size in exchange for simpler operational maintenance — one less bespoke component in the critical path. The server's hot path runs on data-oriented storage: a sparse-set, structure-of-arrays agent store (ECS-style parallel arrays with per-state dense sets) and a position-hashed spatial index for O(1) cell lookups — plus struct DTOs, custom enumerators, and buffer pooling; no LINQ in simulation code. On the client, GPU instancing handles crowd rendering without per-entity draw calls. Nearest-resource search is still a linear scan — profiled as a non-bottleneck at 10K agents, and I keep it visible as acknowledged debt rather than pretending it is solved."
-outcome: "10K+ agents with sub-millisecond behaviour pass ticks, zero-allocation behaviour updates, and ~70% smaller payloads versus comparable JSON snapshots."
+summary: "A server-authoritative multi-agent simulation prototype: 10K+ agents at sub-millisecond server ticks, with structure-of-arrays component storage and a GPU-instanced client."
+context: "Kodama is an end-to-end simulation prototype, not a shipping product: a sandbox for testing patterns at scale. Crowded interactive worlds strain the server loop, the wire format and the client frame budget at once, so I wanted a stack where each constraint could be measured separately."
+decision: "I chose SignalR with binary MessagePack snapshots over a custom WebSocket gateway, trading some payload size for one less bespoke component in the critical path. The server runs at 10 Hz on structure-of-arrays component storage (parallel arrays with sparse sets) and a position-hashed spatial index for constant-time cell lookups, with buffer pooling and no LINQ in simulation code. The client renders the crowd with GPU instancing and interpolates server state. Nearest-resource search is still a linear scan — profiled as a non-bottleneck at 10K agents, and kept visible as acknowledged debt."
+outcome: "10K+ agents with sub-millisecond server ticks, an allocation-free behaviour pass in a profiling measurement, and payloads about 70% smaller than comparable JSON snapshots."
 cover:
   src: "../../assets/work/kodama/cover.jpg"
   alt: "Kodama terrarium simulation — a dense crowd of agents moving through a stylized 3D environment"

@@ -1,16 +1,16 @@
 ---
 title: "Rhythm Fruit Shop — Native C++ Core"
-order: 1
+order: 2
 featured: true
 year: "2026"
 period: "2026"
-role: "Systems Engineer"
+role: "Solo developer (personal practice project)"
 team: "Solo"
 stack: ["C++20", "SFML", "miniaudio", "CMake", "GitHub Actions"]
-summary: "A native C++20 rhythm-game core with CI-enforced determinism, a PCM-cursor-derived clock, and a zero-allocation gameplay hot path."
-context: "A rhythm game is a real-time system with an unforgiving spec: judgment windows are tens of milliseconds wide, so every layer between the audio hardware and the player's input must be accounted for. I built this native C++20 core to work through timing, determinism, and memory discipline from first principles — without an engine doing the hard parts for me."
-decision: "Song time derives from the audio backend's PCM cursor through an EMA-smoothed, re-anchoring clock — never from frame deltas. Input events carry host-monotonic timestamps reverse-mapped into song time, treating input-to-judgment as a clock-domain-crossing problem. The session core is fully headless, which makes determinism testable: CI replays a recorded run and asserts agreement with a reference Q16 fixed-point scoring implementation. Memory discipline is asserted via a custom operator-new AllocationGuard on the steady-state hot path, and CMake dependency guards make architectural layering provable (the core links no windowing or audio libraries)."
-outcome: "Deterministic record & replay validated in CI against a reference scoring implementation; zero-allocation gameplay hot path asserted by a custom allocation guard, and architectural layering verified by headless CI."
+summary: "A native C++20 rhythm-game core: an audio clock derived from the PCM cursor, deterministic record and replay checked in CI, and an allocation-free gameplay path asserted by headless tests."
+context: "A rhythm game is a real-time system with an unforgiving spec: judgment windows are tens of milliseconds wide, so every layer between the audio hardware and the player's input must be accounted for. I built this native C++20 core as a practice project, to work through timing, determinism and memory discipline without an engine doing the hard parts for me."
+decision: "Song time derives from the audio backend's PCM cursor through an EMA-smoothed, re-anchoring clock, never from frame deltas. Input events carry host-monotonic timestamps mapped back into song time, so input-to-judgment is treated as a clock-domain crossing. The session core runs headless, which makes determinism testable: CI replays a recorded run, which must reproduce the recorded result exactly, and checks scoring against a reference scoring implementation. A custom operator-new AllocationGuard makes a headless test fail on any steady-state allocation in the gameplay path, and CMake dependency guards keep the core free of windowing and audio libraries."
+outcome: "Record and replay, the allocation check and the layering rule all run as required headless CI gates, so a change that breaks them turns the build red."
 cover:
   src: "../../assets/work/rhythm-fruit-shop-cpp/cover.jpg"
   alt: "Rhythm Fruit Shop gameplay — notes descending toward the judgment line in a fruit-shop themed rhythm game"
