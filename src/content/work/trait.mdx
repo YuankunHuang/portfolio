@@ -8,8 +8,8 @@ role: "Software Engineer (Contract)"
 team: "Sole engineer, with a product owner and a UX designer"
 stack: ["Unity", "C#", "Ultraleap", "Session telemetry"]
 summary: "Sole engineer on the Unity and Ultraleap rebuild of TrAIT, a gamified stroke-rehabilitation task whose earlier Kinect version was validated in a peer-reviewed trial."
-context: "TrAIT turns upper-limb stroke rehabilitation into a game, because conventional therapy sessions produce few therapeutic reaches and motor relearning needs many more. The original version ran on a Microsoft Kinect and was evaluated in a published trial (Neurorehabilitation and Neural Repair, 2024). I was the sole engineer on its rebuild in Unity with Ultraleap hand tracking, the software the research team updated for its follow-up work."
-decision: "I structured the app as a small service architecture (a game manager with core services and about twenty scene controllers) so calibration, gameplay, telemetry and export could change independently. Ultraleap tracking drives a motion tracker with a keyboard fallback for testing; a multi-stage calibration fits each patient's reachable workspace, with protection against bad captures and a redo path. Progression runs over twelve streak-based levels. Every session writes per-tick research telemetry and exports it to the lab by email, and editor tooling turns configuration schemas into generated accessors so the team could adjust content without code."
+context: "TrAIT turns upper-limb stroke rehabilitation into a game, because conventional therapy sessions produce few therapeutic reaches and motor relearning needs many more. The original version ran on a Microsoft Kinect and was evaluated in a published trial (Neurorehabilitation and Neural Repair, 2024). As the sole engineer, I rebuilt it from the ground up in Unity with Ultraleap hand tracking, replacing an early prototype; it is the software the research team updated for its follow-up work."
+decision: "I structured the app as a small service architecture (a game manager with eleven core services and seventeen scene controllers) so calibration, gameplay, telemetry and export could change independently. The tracked wrist drives an on-screen cursor and selection works by dwell rather than gestures; a multi-stage calibration maps each patient's reachable workspace to the full screen, with protection against bad captures and a redo path. Progression runs over ten streak-based levels, with a daily session cap rebuilt from on-device logs so a restart cannot bypass it. Sessions write per-frame research telemetry that the lab receives as a zipped email export, and editor tooling turns configuration schemas into generated accessors, so the team's designer tuned all ten levels without code changes."
 outcome: "A working rebuild delivered end to end as the only engineer, from calibration to research data export. The trial results belong to the earlier Kinect version, not to this build."
 cover:
   src: "../../assets/work/trait/cover.png"
@@ -39,5 +39,5 @@ gallery:
     caption: "Difficulty and task parameters adjustable per patient"
   - src: "../../assets/work/trait/06-analytics-dashboard.png"
     title: "Session Data"
-    caption: "Timestamped reach telemetry, exported to the research team after each session"
+    caption: "Timestamped reach telemetry, exported to the research team as a zipped email"
 ---
